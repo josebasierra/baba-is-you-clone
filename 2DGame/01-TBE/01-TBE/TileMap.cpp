@@ -8,7 +8,7 @@
 using namespace std;
 
 
-TileMap *TileMap::createTileMap(const string &levelFile, const glm::vec2 &minCoords, ShaderProgram &program)
+TileMap *TileMap::createTileMap(const string &levelFile, glm::vec2 &minCoords, ShaderProgram &program)
 {
 	TileMap *map = new TileMap(levelFile, minCoords, program);
 	
@@ -19,7 +19,10 @@ TileMap *TileMap::createTileMap(const string &levelFile, const glm::vec2 &minCoo
 TileMap::TileMap(const string &levelFile, const glm::vec2 &minCoords, ShaderProgram &program)
 {
 	loadLevel(levelFile);
-	prepareArrays(minCoords, program);
+	this->minCoords = minCoords;
+	this->program = program;
+
+	prepareArrays();
 }
 
 TileMap::~TileMap()
@@ -28,9 +31,16 @@ TileMap::~TileMap()
 		delete map;
 }
 
+void TileMap::modify_tile(int x, int y, int value) {
+	map[x * mapSize.x + y] = value;
+}
 
-void TileMap::render() const
+
+void TileMap::render()
 {
+	this->free();
+	this->prepareArrays();
+
 	glEnable(GL_TEXTURE_2D);
 	tilesheet.use();
 	glBindVertexArray(vao);
@@ -102,7 +112,7 @@ bool TileMap::loadLevel(const string &levelFile)
 	return true;
 }
 
-void TileMap::prepareArrays(const glm::vec2 &minCoords, ShaderProgram &program)
+void TileMap::prepareArrays()
 {
 	int tile, nTiles = 0;
 	glm::vec2 posTile, texCoordTile[2], halfTexel;
@@ -149,6 +159,8 @@ void TileMap::prepareArrays(const glm::vec2 &minCoords, ShaderProgram &program)
 	posLocation = program.bindVertexAttribute("position", 2, 4*sizeof(float), 0);
 	texCoordLocation = program.bindVertexAttribute("texCoord", 2, 4*sizeof(float), (void *)(2*sizeof(float)));
 }
+
+
 
 
 

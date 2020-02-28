@@ -2,6 +2,9 @@
 #include <cmath>
 #include <glm/gtc/matrix_transform.hpp>
 #include "Scene.h"
+#include "Game.h"
+#include <GL/glew.h>
+#include <GL/glut.h>
 
 
 Scene::Scene()
@@ -27,6 +30,11 @@ void Scene::init()
 void Scene::update(int deltaTime)
 {
 	currentTime += deltaTime;
+
+	if (Game::instance().getSpecialKey(GLUT_KEY_LEFT))
+		map->modify_tile(5, 5, 1);
+	if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT))
+		map->modify_tile(5, 5, 0);
 }
 
 void Scene::render()
