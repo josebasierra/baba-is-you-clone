@@ -2,7 +2,7 @@
 
 
 
-Object::Object(Sprite *sprite, ShaderProgram &shaderProgram, ObjectType type, ObjectName name);
+Object::Object(Sprite *sprite, ShaderProgram &shaderProgram, ObjectType type, ObjectName name)
 {
 
 
