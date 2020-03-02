@@ -6,6 +6,7 @@
 #include "ShaderProgram.h"
 #include "TileMap.h"
 #include "Player.h"
+#include <vector>
 
 
 // Scene contains all the entities of our game.
@@ -28,6 +29,8 @@ private:
 
 private:
 	TileMap *map;
+
+	vector<Player> players;
 	Player *player;
 	ShaderProgram texProgram;
 	float currentTime;
