@@ -2,6 +2,7 @@
 
 #include "Sprite.h"
 #include <unordered_set>
+#include "TileMap.h"
 
 enum ObjectType
 {
@@ -21,19 +22,24 @@ enum Property {
 class Object
 {
 public:
-	Object(Sprite *sprite, ShaderProgram &shaderProgram,  ObjectType type, ObjectName name);
+	Object(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram,  ObjectType type, ObjectName name);
 	~Object();
 
-	void init(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram);
 	void update(int deltaTime);
 	void render();
+	void setPosition(const glm::vec2 &pos);
+	void setTileMap(TileMap *tileMap);
 
 private:
 	Sprite *sprite;
 	ObjectType type;
 	ObjectName name;
+	Texture spritesheet;
+	glm::ivec2 tileMapDispl, posObject;
 
 	unordered_set<Property> properties;
+
+	TileMap *map;
 
 };
 
