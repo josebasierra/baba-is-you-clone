@@ -28,10 +28,14 @@ void Scene::init()
 {
 	initShaders();
 	//map = TileMap::createTileMap("levels/level01.txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
-	map = new Map(glm::ivec2(SCREEN_X, SCREEN_Y), glm::ivec2(10.f, 10.f), glm::ivec2(32.f, 32.f));
+	map = new Map(glm::ivec2(SCREEN_X, SCREEN_Y), glm::ivec2(30, 30), glm::ivec2(32, 32));
 	
 	Object* object = new Object(map, texProgram, ITEM, ROCK);
 	object->setPosition(3, 3);
+	object->addProperty(IS_YOU);
+
+
+
 	objects.push_back(*object);
 
 	/*for (int i = 0; i < 2; i++) {
