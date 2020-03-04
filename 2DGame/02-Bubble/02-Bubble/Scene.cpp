@@ -27,16 +27,20 @@ Scene::~Scene()
 void Scene::init()
 {
 	initShaders();
-	map = TileMap::createTileMap("levels/level01.txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
+	//map = TileMap::createTileMap("levels/level01.txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
+	map = new Map(glm::ivec2(SCREEN_X, SCREEN_Y), glm::ivec2(10.f, 10.f), glm::ivec2(32.f, 32.f));
 	
-	Object *object;
-	for (int i = 0; i < 2; i++) {
+	Object* object = new Object(map, texProgram, ITEM, ROCK);
+	object->setPosition(3, 3);
+	objects.push_back(*object);
+
+	/*for (int i = 0; i < 2; i++) {
 		object = new Object(glm::ivec2(SCREEN_X, SCREEN_Y), texProgram, ITEM, ROCK);
 		object->setPosition(glm::vec2(INIT_PLAYER_X_TILES * map->getTileSize() + (i*1.f), INIT_PLAYER_Y_TILES * map->getTileSize()));
 		object->setTileMap(map);
 
 		objects.push_back(*object);
-	}
+	}*/
 
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
 	currentTime = 0.0f;
@@ -60,7 +64,6 @@ void Scene::render()
 	modelview = glm::mat4(1.0f);
 	texProgram.setUniformMatrix4f("modelview", modelview);
 	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
-	map->render();
 
 	for (int i = 0; i < objects.size(); i++)
 		objects[i].render();

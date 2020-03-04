@@ -4,7 +4,7 @@
 
 #include <glm/glm.hpp>
 #include "ShaderProgram.h"
-#include "TileMap.h"
+#include "Map.h"
 #include "Player.h"
 #include <vector>
 #include "Object.h"
@@ -29,7 +29,7 @@ private:
 	void initShaders();
 
 private:
-	TileMap *map;
+	Map *map;
 
 	vector<Object> objects;
 	ShaderProgram texProgram;

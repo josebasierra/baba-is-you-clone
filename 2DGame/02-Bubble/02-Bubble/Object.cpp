@@ -5,12 +5,13 @@
 #include <GL/glut.h>
 #include "Game.h"
 
+
 enum PlayerAnims
 {
 	STAND_LEFT, STAND_RIGHT, MOVE_LEFT, MOVE_RIGHT
 };
 
-Object::Object(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram, ObjectType type, ObjectName name) {
+Object::Object(Map* map, ShaderProgram &shaderProgram, ObjectType type, ObjectName name) {
 	this->name = name;
 	this->type = type;
 	
@@ -38,8 +39,7 @@ Object::Object(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram, Objec
 		sprite->addKeyframe(MOVE_RIGHT, glm::vec2(4.0f / 20.0f, 0.f));
 
 		sprite->changeAnimation(0);
-		tileMapDispl = tileMapPos;
-		sprite->setPosition(glm::vec2(float(tileMapDispl.x + posObject.x), float(tileMapDispl.y + posObject.y)));
+		
 	}
 	if (this->name == ROCK && this->type == ITEM) {
 		spritesheet.loadFromFile("images/Roca.png", TEXTURE_PIXEL_FORMAT_RGBA);
@@ -52,10 +52,9 @@ Object::Object(const glm::ivec2 &tileMapPos, ShaderProgram &shaderProgram, Objec
 		sprite->addKeyframe(MOVE_LEFT, glm::vec2(0.f,3.f / 3.0f));
 		
 		sprite->changeAnimation(0);
-		tileMapDispl = tileMapPos;
-		sprite->setPosition(glm::vec2(float(tileMapDispl.x + posObject.x), float(tileMapDispl.y + posObject.y)));
-
 	}
+
+	
 	
 }
 
@@ -70,23 +69,15 @@ void Object::update(int deltaTime)
 	{
 		if (sprite->animation() != MOVE_LEFT)
 			sprite->changeAnimation(MOVE_LEFT);
-		posObject.x -= 2;
-		if (map->collisionMoveLeft(posObject, glm::ivec2(32, 32)))
-		{
-			posObject.x += 2;
-			sprite->changeAnimation(STAND_LEFT);
-		}
+		pos.x -= 1;
+
 	}
 	else if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT))
 	{
 		if (sprite->animation() != MOVE_RIGHT)
 			sprite->changeAnimation(MOVE_RIGHT);
-		posObject.x += 2;
-		if (map->collisionMoveRight(posObject, glm::ivec2(32, 32)))
-		{
-			posObject.x -= 2;
-			sprite->changeAnimation(STAND_RIGHT);
-		}
+		pos.x += 1;
+
 	}
 	else
 	{
@@ -96,21 +87,19 @@ void Object::update(int deltaTime)
 			sprite->changeAnimation(STAND_RIGHT);
 	}
 
-	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posObject.x), float(tileMapDispl.y + posObject.y)));
 }
 
 void Object::render()
 {
+	float offset_x = pos.x * map->get_tileSize.x;
+	float offset_y = pos.y * map->get_tileSize.y;
+
+	sprite->setPosition(glm::vec2(float(map->get_origin.x + offset_x), float((map->get_origin.y + offset_y))));
 	sprite->render();
 }
 
-void Object::setPosition(const glm::vec2 &pos)
+void Object::setPosition(int x, int y)
 {
-	posObject = pos;
-	sprite->setPosition(glm::vec2(float(tileMapDispl.x + posObject.x), float(tileMapDispl.y + posObject.y)));
-}
 
-void Object::setTileMap(TileMap *tileMap)
-{
-	map = tileMap;
+	this->pos = glm::ivec2(x,y);
 }
