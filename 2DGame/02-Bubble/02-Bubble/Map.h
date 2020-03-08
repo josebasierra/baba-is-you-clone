@@ -1,8 +1,12 @@
 #pragma once
 #include <glm/glm.hpp>
 #include <vector>
+#include <queue>
 #include "Object.h"
 #include <iostream>
+
+using namespace glm;
+
 
 class Object;
 
@@ -10,18 +14,23 @@ class Map
 {
 
 public:
-	Map(glm::ivec2 mapOrigin, glm::ivec2 mapSize, glm::ivec2 tileSize);
+	Map(ivec2 mapOrigin, ivec2 mapSize, ivec2 tileSize);
 
-	glm::ivec2 getOrigin();
-	
-	glm::ivec2 getTileSize();
+	ivec2 getOrigin();
+	ivec2 getTileSize();
+
+	void add(Object* object, ivec2 position);
+	void remove(Object* object, ivec2 position);
+	void move(Object* object, ivec2 pos_start, ivec2 pos_end);
+
+	bool isValidPosition(ivec2 pos);
+
+	void render();
 
 
 private:
 
-	vector<Object*> layer0;
-	vector<Object*> layer1;
-
+	vector<queue<Object*> > grid;
 	glm::ivec2 mapOrigin;
 	glm::ivec2 mapSize;
 	glm::ivec2 tileSize;

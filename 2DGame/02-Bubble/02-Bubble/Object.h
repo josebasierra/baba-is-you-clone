@@ -5,6 +5,8 @@
 #include "Map.h"
 
 
+using namespace glm;
+
 enum ObjectType
 {
 	NOUN, OPERATOR, PROPERTY, ITEM
@@ -32,7 +34,9 @@ public:
 
 	void update(int deltaTime);
 	void render();
-	void setPosition(int x, int y);
+
+	bool moveTo(ivec2 pos);
+	bool moveTo(int x, int y);
 
 	void addProperty(Property property);
 	void removeProperty(Property property);
@@ -44,7 +48,7 @@ private:
 	ObjectType type;
 	ObjectName name;
 
-	glm::ivec2 pos;
+	ivec2 pos;
 
 	unordered_set<Property> properties;
 
