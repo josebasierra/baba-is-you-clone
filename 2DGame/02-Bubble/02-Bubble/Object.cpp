@@ -11,6 +11,7 @@ Object::Object(Map* map,  ShaderProgram& shaderProgram, ObjectType type, ObjectN
 	this->map = map;
 	this->name = name;
 	this->type = type;
+	this->pos = ivec2(0, 0);
 
 	if (this->name == BABA && this->type == ITEM) {
 		spritesheet.loadFromFile("images/baba_anim.png", TEXTURE_PIXEL_FORMAT_RGBA);
@@ -39,7 +40,6 @@ Object::Object(Map* map,  ShaderProgram& shaderProgram, ObjectType type, ObjectN
 		sprite->changeAnimation(0);
 	}
 
-
 }
 
 
@@ -54,17 +54,17 @@ void Object::update(int deltaTime)
 	if (properties.find(IS_YOU) != properties.end()) {
 
 		if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT)) {
-			this->pos.x += 1;
+			moveTo(this->pos + ivec2(1, 0));
 		}
 		else if (Game::instance().getSpecialKey(GLUT_KEY_LEFT)) {
-			this->pos.x -= 1;
+			moveTo(this->pos + ivec2(-1, 0));
 		}
 
 		else if (Game::instance().getSpecialKey(GLUT_KEY_UP)) {
-			this->pos.y -= 1;
+			moveTo(this->pos + ivec2(0, -1));
 		}
 		else if (Game::instance().getSpecialKey(GLUT_KEY_DOWN)) {
-			this->pos.y += 1;
+			moveTo(this->pos + ivec2(0, 1));
 		}
 	}
 
@@ -74,17 +74,29 @@ void Object::update(int deltaTime)
 
 void Object::render()
 {
-	float offset_x = float(pos.x) * map->getTileSize().x;
-	float offset_y = float(pos.y) * map->getTileSize().y;
-
-	sprite->setPosition(glm::vec2(float(map->getOrigin().x + offset_x), float((map->getOrigin().y + offset_y))));
 	sprite->render();
 }
 
 
-void Object::setPosition(int x, int y)
-{
-	this->pos = glm::ivec2(x,y);
+bool Object::moveTo(ivec2 pos) {
+
+	if ( ! map->isValidPosition(pos) ) return false;
+
+	Object* object = this;
+	map->move(this, this->pos, pos);
+	this->pos = pos;
+
+	//compute and update sprite position only when object moves
+	float offset_x = float(pos.x) * map->getTileSize().x;
+	float offset_y = float(pos.y) * map->getTileSize().y;
+	sprite->setPosition(glm::vec2(float(map->getOrigin().x + offset_x), float((map->getOrigin().y + offset_y))));
+
+	return true;
+}
+
+
+bool Object::moveTo(int x, int y) {
+	return moveTo(ivec2(x, y));
 }
 
 
