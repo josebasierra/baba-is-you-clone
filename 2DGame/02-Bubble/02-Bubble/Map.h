@@ -21,9 +21,14 @@ public:
 
 	void add(Object* object, ivec2 position);
 	void remove(Object* object, ivec2 position);
-	void move(Object* object, ivec2 pos_start, ivec2 pos_end);
+	bool move(Object* object, ivec2 pos_start, ivec2 pos_end);
 
 	bool isValidPosition(ivec2 pos);
+
+	// return true if there's STOP(and not PUSH) item
+	bool isBlocked(ivec2 pos, ivec2 dir);
+
+	bool canMove(ivec2 pos, ivec2 dir);
 
 	void render();
 

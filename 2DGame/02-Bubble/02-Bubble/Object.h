@@ -22,6 +22,10 @@ enum Property {
 	IS_PUSH, IS_STOP, IS_WIN, IS_YOU
 };
 
+enum Direction {
+	UP, DOWN, RIGHT, LEFT
+};
+
 
 class Map;
 
@@ -40,8 +44,11 @@ public:
 	bool moveTo(ivec2 pos);
 	bool moveTo(int x, int y);
 
+	void setPos(ivec2 pos);
+
 	void addProperty(Property property);
 	void removeProperty(Property property);
+	bool hasProperty(Property property);
 
 private:
 	Sprite *sprite;
@@ -55,6 +62,5 @@ private:
 	unordered_set<Property> properties;
 
 	Map* map; 
-	float currentTime;
 };
 

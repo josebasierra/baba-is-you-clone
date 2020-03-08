@@ -31,7 +31,7 @@ private:
 private:
 	Map *map;
 
-	vector<Object> objects;
+	vector<Object*> objects;
 	ShaderProgram texProgram;
 
 	float currentTime;

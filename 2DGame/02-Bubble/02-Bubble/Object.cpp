@@ -42,10 +42,11 @@ Object::Object(Map* map,  ShaderProgram& shaderProgram, ObjectType type, ObjectN
 
 }
 
-
-Object::~Object() {
+Object:: ~Object() {
 	delete sprite;
 }
+
+
 
 
 void Object::update(int deltaTime)
@@ -81,23 +82,27 @@ void Object::updateTurn() {
 
 bool Object::moveTo(ivec2 pos) {
 
-	if ( ! map->isValidPosition(pos) ) return false;
+	if (map->move(this, this->pos, pos)) {
+		this->pos = pos;
 
-	Object* object = this;
-	map->move(this, this->pos, pos);
-	this->pos = pos;
+		//compute and update sprite position only when object moves
+		float offset_x = float(pos.x) * map->getTileSize().x;
+		float offset_y = float(pos.y) * map->getTileSize().y;
+		sprite->setPosition(glm::vec2(float(map->getOrigin().x + offset_x), float((map->getOrigin().y + offset_y))));
 
-	//compute and update sprite position only when object moves
-	float offset_x = float(pos.x) * map->getTileSize().x;
-	float offset_y = float(pos.y) * map->getTileSize().y;
-	sprite->setPosition(glm::vec2(float(map->getOrigin().x + offset_x), float((map->getOrigin().y + offset_y))));
-
-	return true;
+		return true;
+	}
+	
+	return false;
 }
 
 
 bool Object::moveTo(int x, int y) {
 	return moveTo(ivec2(x, y));
+}
+
+void Object::setPos(ivec2 pos) {
+	this->pos = pos;
 }
 
 
@@ -108,4 +113,8 @@ void Object::addProperty(Property property) {
 
 void Object::removeProperty(Property property) {
 	properties.erase(property);
+}
+
+bool Object::hasProperty(Property property) {
+	return (properties.find(property) != properties.end());
 }
