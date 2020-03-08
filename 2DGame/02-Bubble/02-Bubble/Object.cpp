@@ -50,7 +50,17 @@ Object::~Object() {
 
 void Object::update(int deltaTime)
 {
+	sprite->update(deltaTime);
+}
 
+
+void Object::render()
+{
+	sprite->render();
+}
+
+
+void Object::updateTurn() {
 	if (properties.find(IS_YOU) != properties.end()) {
 
 		if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT)) {
@@ -67,16 +77,7 @@ void Object::update(int deltaTime)
 			moveTo(this->pos + ivec2(0, 1));
 		}
 	}
-
-	sprite->update(deltaTime);
 }
-
-
-void Object::render()
-{
-	sprite->render();
-}
-
 
 bool Object::moveTo(ivec2 pos) {
 

@@ -67,6 +67,14 @@ bool Game::getSpecialKey(int key) const
 	return specialKeys[key];
 }
 
+bool Game::movementKeyPressed() {
+	return 
+		Game::instance().getSpecialKey(GLUT_KEY_RIGHT) ||
+		Game::instance().getSpecialKey(GLUT_KEY_LEFT) ||
+		Game::instance().getSpecialKey(GLUT_KEY_UP) ||
+		Game::instance().getSpecialKey(GLUT_KEY_DOWN);
+}
+
 
 
 

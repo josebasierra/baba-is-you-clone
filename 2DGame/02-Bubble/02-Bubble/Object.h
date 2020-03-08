@@ -35,6 +35,8 @@ public:
 	void update(int deltaTime);
 	void render();
 
+	void updateTurn();
+
 	bool moveTo(ivec2 pos);
 	bool moveTo(int x, int y);
 

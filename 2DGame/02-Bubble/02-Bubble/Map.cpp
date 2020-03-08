@@ -2,6 +2,7 @@
 #include <iostream>
 
 
+
 #define TURN_TIME 1000  //min millisecs between actions
 
 Map::Map(ivec2 mapOrigin, ivec2 mapSize, ivec2 tileSize) {

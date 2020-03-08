@@ -3,7 +3,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "Scene.h"
 #include "Game.h"
-
+#include <GL/glew.h>
+#include <GL/glut.h>
 
 #define SCREEN_X 32
 #define SCREEN_Y 16
@@ -11,6 +12,8 @@
 #define INIT_PLAYER_X_TILES 4
 #define INIT_PLAYER_Y_TILES 25
 
+
+#define TURN_TIME 200
 
 Scene::Scene()
 {
@@ -52,8 +55,23 @@ void Scene::update(int deltaTime)
 {
 	currentTime += deltaTime;
 
+	//update object animations
 	for (int i = 0; i < objects.size(); i++)
 		objects[i].update(deltaTime);
+
+	//update turn
+	currentTurnTime += deltaTime;
+	if (Game::instance().movementKeyPressed() && currentTurnTime >= float(TURN_TIME) ) {
+		
+		for (int i = 0; i < objects.size(); i++)
+			objects[i].updateTurn();
+
+		currentTurnTime = 0;
+	}
+
+	//map-> check new rules (remove all properties and apply new ones, transform objects)
+
+
 
 }
 

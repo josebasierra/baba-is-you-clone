@@ -33,7 +33,10 @@ private:
 
 	vector<Object> objects;
 	ShaderProgram texProgram;
+
 	float currentTime;
+	float currentTurnTime;
+
 	glm::mat4 projection;
 
 };
