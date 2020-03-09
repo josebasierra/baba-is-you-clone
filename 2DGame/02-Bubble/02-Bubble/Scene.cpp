@@ -32,21 +32,32 @@ Scene::~Scene()
 
 void Scene::init()
 {
+	//output console
+	FILE* fp;
+
+	AllocConsole();
+	freopen_s(&fp, "CONIN$", "r", stdin);
+	freopen_s(&fp, "CONOUT$", "w", stdout);
+	freopen_s(&fp, "CONOUT$", "w", stderr);
+	//----------------------------------------------
+
 	initShaders();
 	init_Scene("levels/level1_prueba.txt");
 
 /*
 	for (int i = 0; i < 2; i++) {
 		Object* object = new Object(map, texProgram, ITEM, BABA);
-		object->moveTo(3, 3+i);
+		object->setPos(3, 3+i);
 		object->addProperty(IS_YOU);
+		object->addProperty(IS_PUSH);
 		objects.push_back(object);
 	}
 
 	//create some pushable rocks
 	for (int i = 0; i < 5; i++) {
 		Object* object = new Object(map, texProgram, ITEM, ROCK);
-		object->moveTo(5+i, 3);
+		object->setPos(5+i, 3);
+		object->addProperty(IS_PUSH);
 		object->addProperty(IS_STOP);
 		objects.push_back(object);
 	}*/
@@ -87,13 +98,13 @@ bool Scene::init_Scene(const string &levelFile) {
 			fin >> tile;
 			if (tile == 1) {
 				Object* object = new Object(map, texProgram, ITEM, BABA);
-				object->moveTo(x, y);
+				object->setPos(x, y);
 				object->addProperty(IS_YOU);
 				objects.push_back(object);
 			}
 			else if (tile == 2) {
 				Object* object = new Object(map, texProgram, ITEM, ROCK);
-				object->moveTo(x, y);
+				object->setPos(x, y);
 				object->addProperty(IS_STOP);
 				objects.push_back(object);
 			}
