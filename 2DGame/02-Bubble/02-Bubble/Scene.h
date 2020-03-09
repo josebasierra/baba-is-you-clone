@@ -24,6 +24,7 @@ public:
 	void init();
 	void update(int deltaTime);
 	void render();
+	bool init_Scene(const string &levelFile);
 
 private:
 	void initShaders();

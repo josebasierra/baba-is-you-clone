@@ -14,7 +14,7 @@ class Map
 {
 
 public:
-	Map(ivec2 mapOrigin, ivec2 mapSize, ivec2 tileSize);
+	Map( ivec2 mapOrigin, ivec2 mapSize, ivec2 tileSize);
 
 	ivec2 getOrigin();
 	ivec2 getTileSize();
@@ -31,7 +31,6 @@ public:
 	bool canMove(ivec2 pos, ivec2 dir);
 
 	void render();
-
 
 private:
 

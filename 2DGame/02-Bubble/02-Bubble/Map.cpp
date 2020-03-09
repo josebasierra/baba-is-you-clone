@@ -1,7 +1,8 @@
 #include "Map.h"
 #include <iostream>
-
-
+#include <fstream>
+#include <sstream>
+#include <vector>
 
 #define TURN_TIME 1000  //min millisecs between actions
 
@@ -9,9 +10,10 @@ Map::Map(ivec2 mapOrigin, ivec2 mapSize, ivec2 tileSize) {
 	this->mapOrigin = mapOrigin;
 	this->mapSize = mapSize;
 	this->tileSize = tileSize;
-
+	
 	grid = vector<queue<Object*>>(mapSize.x * mapSize.y);
 }
+
 
 ivec2 Map::getOrigin() {
 	return mapOrigin;
@@ -88,3 +90,4 @@ void Map::render() {
 		}
 	}
 }
+

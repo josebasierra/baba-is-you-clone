@@ -5,6 +5,9 @@
 #include "Game.h"
 #include <GL/glew.h>
 #include <GL/glut.h>
+#include <fstream>
+#include <sstream>
+#include <vector>
 
 #define SCREEN_X 32
 #define SCREEN_Y 16
@@ -30,11 +33,9 @@ Scene::~Scene()
 void Scene::init()
 {
 	initShaders();
-	//map = TileMap::createTileMap("levels/level01.txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
-	map = new Map(glm::ivec2(SCREEN_X, SCREEN_Y), glm::ivec2(12, 12), glm::ivec2(32, 32));
-	
+	init_Scene("levels/level1_prueba.txt");
 
-	//create some controllable babas
+/*
 	for (int i = 0; i < 2; i++) {
 		Object* object = new Object(map, texProgram, ITEM, BABA);
 		object->moveTo(3, 3+i);
@@ -48,12 +49,64 @@ void Scene::init()
 		object->moveTo(5+i, 3);
 		object->addProperty(IS_STOP);
 		objects.push_back(object);
-	}
+	}*/
 
 
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
 	currentTime = 0.0f;
 }
+
+bool Scene::init_Scene(const string &levelFile) {
+	//obtengo datos del file
+
+	ifstream fin;
+	string line, tilesheetFile;
+	stringstream sstream;
+	int tile;
+	ivec2 mapSize;
+	ivec2 tileSize;
+
+	fin.open(levelFile.c_str());
+	if (!fin.is_open())
+		return false;
+	getline(fin, line);
+	if (line.compare(0, 7, "TILEMAP") != 0)
+		return false;
+	getline(fin, line);
+	sstream.str(line);
+	sstream >> mapSize.x >> mapSize.y;
+	getline(fin, line);
+	sstream.str(line);
+	sstream >> tileSize.x >> tileSize.y;
+	map = new Map(glm::ivec2(SCREEN_X, SCREEN_Y), mapSize, tileSize);
+
+	for (int y = 0; y<mapSize.y; y++)
+	{
+		for (int x = 0; x<mapSize.x; x++)
+		{
+			fin >> tile;
+			if (tile == 1) {
+				Object* object = new Object(map, texProgram, ITEM, BABA);
+				object->moveTo(x, y);
+				object->addProperty(IS_YOU);
+				objects.push_back(object);
+			}
+			else if (tile == 2) {
+				Object* object = new Object(map, texProgram, ITEM, ROCK);
+				object->moveTo(x, y);
+				object->addProperty(IS_STOP);
+				objects.push_back(object);
+			}
+		}
+#ifndef _WIN32
+		fin.get(tile);
+#endif
+	}
+	fin.close();
+
+	return true;
+}
+
 
 void Scene::update(int deltaTime)
 {
@@ -74,9 +127,6 @@ void Scene::update(int deltaTime)
 	}
 
 	//map-> check new rules (remove all properties and apply new ones, transform objects)
-
-
-
 }
 
 void Scene::render()
