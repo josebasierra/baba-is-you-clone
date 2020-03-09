@@ -8,6 +8,7 @@
 
 
 Object::Object(Map* map,  ShaderProgram& shaderProgram, ObjectType type, ObjectName name) {
+
 	this->map = map;
 	this->name = name;
 	this->type = type;
@@ -45,7 +46,6 @@ Object::Object(Map* map,  ShaderProgram& shaderProgram, ObjectType type, ObjectN
 Object:: ~Object() {
 	delete sprite;
 }
-
 
 
 
@@ -101,8 +101,17 @@ bool Object::moveTo(int x, int y) {
 	return moveTo(ivec2(x, y));
 }
 
-void Object::setPos(ivec2 pos) {
+bool Object::setPos(int x, int y) {
+	ivec2 pos = ivec2(x, y);
+	map->add(this, pos);
 	this->pos = pos;
+
+	//compute and update sprite position only when object moves
+	float offset_x = float(pos.x) * map->getTileSize().x;
+	float offset_y = float(pos.y) * map->getTileSize().y;
+	sprite->setPosition(glm::vec2(float(map->getOrigin().x + offset_x), float((map->getOrigin().y + offset_y))));
+
+	return true; //temporal
 }
 
 

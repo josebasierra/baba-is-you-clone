@@ -1,7 +1,7 @@
 #include "Map.h"
 #include <iostream>
 
-
+using namespace glm;
 
 #define TURN_TIME 1000  //min millisecs between actions
 
@@ -28,25 +28,48 @@ void Map::add(Object* object, ivec2 position) {
 
 
 void Map::remove(Object* object, ivec2 position) {
-	queue<Object*> q = grid[position.x * mapSize.x + position.y];
-	for (int i = 0; i < q.size(); i++) {
-		Object* object = q.front();
+	queue<Object*> & q = grid[position.x*mapSize.x + position.y] ;
+	int n = q.size();
+	for (int i = 0; i < n; i++) {
+		Object* objectAux = q.front();
 		q.pop();
-		if (object != object) q.push(object);
+		if (object != objectAux) q.push(objectAux);		
 	}
 }
 
 
 bool Map::move(Object* object, ivec2 pos1, ivec2 pos2) {
+	
 	ivec2 dir = pos2 - pos1;
-	if (canMove(pos1, dir)) {
+
+	if (isValidPosition(pos2) && !isBlocked(pos2) && pushObjects(pos2, dir)) {
 		remove(object, pos1);
 		add(object, pos2);
+
+		auto n1 = grid[pos1.x * mapSize.x + pos1.y].size();
+		auto n2 = grid[pos2.x * mapSize.x + pos2.y].size();
+		cout << n1 << " " << n2 << endl;
 		return true;
 	}
 
 	return false;
+}
 
+
+// true if can push objects in grid position 'pos' in direction 'dir'
+bool Map::pushObjects(ivec2 pos, ivec2 dir) {
+	if (!isValidPosition(pos + dir)) return false;
+	queue<Object*> & q = grid[pos.x * mapSize.x + pos.y];
+
+	bool canPush = true;
+	for (int i = 0; i < q.size(); i++) {
+		Object* object = q.front();
+		q.pop(); q.push(object);
+		if (object->hasProperty(IS_PUSH) && !object->moveTo(pos + dir)) {
+			canPush = false;
+		}
+	} 
+	return canPush;
 }
 
 
@@ -55,10 +78,9 @@ bool Map::isValidPosition(ivec2 pos) {
 }
 
 //temporal, cambiar
-bool Map::isBlocked(ivec2 pos, ivec2 dir) {
-	ivec2 pos2 = pos + dir; 
-	queue<Object*> q = grid[pos2.x * mapSize.x + pos2.y];
-
+bool Map::isBlocked(ivec2 pos) {
+	queue<Object*> & q = grid[pos.x * mapSize.x + pos.y];
+	 
 	bool isBlocked = false;
 	for (int i = 0; i < q.size(); i++) {
 		Object* object = q.front();
@@ -72,7 +94,7 @@ bool Map::isBlocked(ivec2 pos, ivec2 dir) {
 
 // can move in direction "dir" from position "pos" ??
 bool Map::canMove(ivec2 pos, ivec2 dir) {
-	return (isValidPosition(pos + dir) && !isBlocked(pos, dir));
+	return (isValidPosition(pos + dir));
 }
 
 void Map::render() {
@@ -87,4 +109,13 @@ void Map::render() {
 			}
 		}
 	}
+}
+
+
+queue<Object*>& Map::getQueue(ivec2 position) {
+	return grid[position.x * mapSize.x + position.y];
+}
+
+queue<Object*>& Map::getQueue(int x, int y) {
+	return grid[x * mapSize.x + y];
 }

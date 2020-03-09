@@ -14,6 +14,7 @@ class Map
 {
 
 public:
+
 	Map(ivec2 mapOrigin, ivec2 mapSize, ivec2 tileSize);
 
 	ivec2 getOrigin();
@@ -24,14 +25,17 @@ public:
 	bool move(Object* object, ivec2 pos_start, ivec2 pos_end);
 
 	bool isValidPosition(ivec2 pos);
-
 	// return true if there's STOP(and not PUSH) item
-	bool isBlocked(ivec2 pos, ivec2 dir);
+	bool isBlocked(ivec2 pos);
 
 	bool canMove(ivec2 pos, ivec2 dir);
 
+	bool pushObjects(ivec2 pos, ivec2 dir);
+
 	void render();
 
+	queue<Object*>& getQueue(ivec2 position);
+	queue<Object*>& getQueue(int x, int y);
 
 private:
 

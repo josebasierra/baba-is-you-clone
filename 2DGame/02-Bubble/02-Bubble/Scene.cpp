@@ -29,6 +29,15 @@ Scene::~Scene()
 
 void Scene::init()
 {
+	//output console
+	FILE* fp;
+
+	AllocConsole();
+	freopen_s(&fp, "CONIN$", "r", stdin);
+	freopen_s(&fp, "CONOUT$", "w", stdout);
+	freopen_s(&fp, "CONOUT$", "w", stderr);
+	//----------------------------------------------
+
 	initShaders();
 	//map = TileMap::createTileMap("levels/level01.txt", glm::vec2(SCREEN_X, SCREEN_Y), texProgram);
 	map = new Map(glm::ivec2(SCREEN_X, SCREEN_Y), glm::ivec2(12, 12), glm::ivec2(32, 32));
@@ -37,15 +46,17 @@ void Scene::init()
 	//create some controllable babas
 	for (int i = 0; i < 2; i++) {
 		Object* object = new Object(map, texProgram, ITEM, BABA);
-		object->moveTo(3, 3+i);
+		object->setPos(3, 3+i);
 		object->addProperty(IS_YOU);
+		object->addProperty(IS_PUSH);
 		objects.push_back(object);
 	}
 
 	//create some pushable rocks
 	for (int i = 0; i < 5; i++) {
 		Object* object = new Object(map, texProgram, ITEM, ROCK);
-		object->moveTo(5+i, 3);
+		object->setPos(5+i, 3);
+		object->addProperty(IS_PUSH);
 		object->addProperty(IS_STOP);
 		objects.push_back(object);
 	}

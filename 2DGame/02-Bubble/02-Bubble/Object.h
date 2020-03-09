@@ -36,6 +36,8 @@ public:
 	Object(Map* map,  ShaderProgram& shaderProgram, ObjectType type, ObjectName name);
 	~Object();
 
+	uint getId();
+
 	void update(int deltaTime);
 	void render();
 
@@ -44,13 +46,15 @@ public:
 	bool moveTo(ivec2 pos);
 	bool moveTo(int x, int y);
 
-	void setPos(ivec2 pos);
+	bool setPos(int x, int y);
 
 	void addProperty(Property property);
 	void removeProperty(Property property);
 	bool hasProperty(Property property);
 
+
 private:
+
 	Sprite *sprite;
 	Texture spritesheet;
 
