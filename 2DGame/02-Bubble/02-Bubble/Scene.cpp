@@ -105,7 +105,19 @@ bool Scene::init_Scene(const string &levelFile) {
 			else if (tile == 2) {
 				Object* object = new Object(map, texProgram, ITEM, ROCK);
 				object->setPos(x, y);
+				object->addProperty(IS_PUSH);
+				objects.push_back(object);
+			}
+			else if (tile == 3) {
+				Object* object = new Object(map, texProgram, ITEM, WALL);
+				object->setPos(x, y);
 				object->addProperty(IS_STOP);
+				objects.push_back(object);
+			}
+			else if (tile == 4) {
+				Object* object = new Object(map, texProgram, ITEM, FLAG);
+				object->setPos(x, y);
+				object->addProperty(IS_WIN);
 				objects.push_back(object);
 			}
 		}

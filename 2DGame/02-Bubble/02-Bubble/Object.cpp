@@ -40,7 +40,30 @@ Object::Object(Map* map,  ShaderProgram& shaderProgram, ObjectType type, ObjectN
 		
 		sprite->changeAnimation(0);
 	}
+	else if (this->name == WALL && this->type == ITEM) {
+		spritesheet.loadFromFile("images/wall.png", TEXTURE_PIXEL_FORMAT_RGBA);
+		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, &shaderProgram);
+		sprite->setNumberAnimations(1);
 
+		sprite->setAnimationSpeed(0, 8);
+		sprite->addKeyframe(0, glm::vec2(0.f, 1.f / 3.0f)); //habria que hacerlo mas bonito
+		/*sprite->addKeyframe(0, glm::vec2(0.f, 2.f / 3.0f));
+		sprite->addKeyframe(0, glm::vec2(0.f, 3.f / 3.0f)); */
+
+		sprite->changeAnimation(0);
+	}
+	else if (this->name == FLAG && this->type == ITEM) {
+		spritesheet.loadFromFile("images/flag.png", TEXTURE_PIXEL_FORMAT_RGBA);
+		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, &shaderProgram);
+		sprite->setNumberAnimations(1);
+
+		sprite->setAnimationSpeed(0, 8);
+		sprite->addKeyframe(0, glm::vec2(0.f, 1.f / 3.0f)); 
+		sprite->addKeyframe(0, glm::vec2(0.f, 2.f / 3.0f));
+		sprite->addKeyframe(0, glm::vec2(0.f, 3.f / 3.0f)); 
+
+		sprite->changeAnimation(0);
+	}
 }
 
 Object:: ~Object() {
