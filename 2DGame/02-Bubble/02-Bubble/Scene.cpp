@@ -133,7 +133,7 @@ bool Scene::init_Scene(const string &levelFile) {
 				objects.push_back(object);
 			}
 			else if (tile == 7) {
-				Object* object = new Object(map, texProgram, NOUN, YOU);
+				Object* object = new Object(map, texProgram, PROPERTY, YOU);
 				object->setPos(x, y);
 				object->addProperty(IS_PUSH);
 				objects.push_back(object);
@@ -145,7 +145,7 @@ bool Scene::init_Scene(const string &levelFile) {
 				objects.push_back(object);
 			}
 			else if (tile == 9) {
-				Object* object = new Object(map, texProgram, NOUN, WIN);
+				Object* object = new Object(map, texProgram, PROPERTY, WIN);
 				object->setPos(x, y);
 				object->addProperty(IS_PUSH);
 				objects.push_back(object);
@@ -157,7 +157,7 @@ bool Scene::init_Scene(const string &levelFile) {
 				objects.push_back(object);
 			}
 			else if (tile == 11) {
-				Object* object = new Object(map, texProgram, NOUN, STOP);
+				Object* object = new Object(map, texProgram, PROPERTY, STOP);
 				object->setPos(x, y);
 				object->addProperty(IS_PUSH);
 				objects.push_back(object);
@@ -169,7 +169,7 @@ bool Scene::init_Scene(const string &levelFile) {
 				objects.push_back(object);
 			}
 			else if (tile == 13) {
-				Object* object = new Object(map, texProgram, NOUN, PUSH);
+				Object* object = new Object(map, texProgram, PROPERTY, PUSH);
 				object->setPos(x, y);
 				object->addProperty(IS_PUSH);
 				objects.push_back(object);
@@ -196,13 +196,30 @@ void Scene::update(int deltaTime)
 	//update turn
 	currentTurnTime += deltaTime;
 	if (Game::instance().movementKeyPressed() && currentTurnTime >= float(TURN_TIME) ) {
-		
+
+		//refresh objects (hasMoved = false)
+		for (int i = 0; i < objects.size(); i++)
+			objects[i]->refresh();
+
+		//apply movement to objects
 		for (int i = 0; i < objects.size(); i++)
 			objects[i]->updateTurn();
+
+		//remove all properties (except words)
+		for (int i = 0; i < objects.size(); i++) {
+			Object* obj = objects[i];
+			if (!obj->isWord()) obj->cleanProperties();
+		}
+
+		//check rules and apply new properties
+		map->applyAllRules();
 
 		currentTurnTime = 0;
 	}
 
+
+
+	//apply new rules properties
 	//map-> check new rules (remove all properties and apply new ones, transform objects)
 }
 

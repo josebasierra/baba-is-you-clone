@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClInclude Include="AnimKeyframes.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="ObjectEnums.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Player.h" />

@@ -50,10 +50,6 @@ bool Map::move(Object* object, ivec2 pos1, ivec2 pos2) {
 	if (isValidPosition(pos2) && !isBlocked(pos2) && pushObjects(pos2, dir)) {
 		remove(object, pos1);
 		add(object, pos2);
-
-		auto n1 = grid[pos1.x * mapSize.x + pos1.y].size();
-		auto n2 = grid[pos2.x * mapSize.x + pos2.y].size();
-		cout << n1 << " " << n2 << endl;
 		return true;
 	}
 
@@ -102,10 +98,66 @@ bool Map::canMove(ivec2 pos, ivec2 dir) {
 	return (isValidPosition(pos + dir));
 }
 
+
+Object* Map::getWord(int x, int y) {
+	queue<Object*>& q = grid[x * mapSize.x + y];
+	Object* word = NULL;
+	for (int i = 0; i < q.size(); i++) {
+		Object* object = q.front();
+		q.pop();
+		if (object->isWord()) word = object;
+		q.push(object);
+	}
+
+	return word;
+}
+
+
+void Map::applyAllRules() {
+	for (int x = 0; x < mapSize.x -2; x++) {
+		for (int y = 0; y < mapSize.y -2; y++) {
+
+			Object* word = getWord(x,y);
+
+			if (word != NULL && word->getType() == NOUN) {
+				applyRule(word, getWord(x+1,y), getWord(x+2, y));
+				applyRule(word, getWord(x, y+1), getWord(x, y+2));
+			}
+		}
+	}
+}
+
+
+void Map::applyRule(Object* w1, Object* w2, Object* w3) {
+	if (w1 == NULL || w2 == NULL || w3 == NULL) return;
+	if (w1->getType() == NOUN && w2->getType() == OPERATOR) {
+		if (w3->getType() == PROPERTY) {
+			addProperty(w1->getName(), w3->getName());
+		}
+	}
+}
+
+void Map::addProperty(ObjectName itemName, ObjectName propertyName) {
+	for (int x = 0; x < mapSize.x; x++) {
+		for (int y = 0; y < mapSize.y; y++) {
+			queue<Object*>& q = grid[x * mapSize.x + y];
+			for (int z = 0; z < q.size(); z++) {
+				Object* object = q.front();
+				
+				if (object->getType() == ITEM && object->getName() == itemName)
+					object->addProperty(propertyName);
+
+				q.pop();
+				q.push(object);
+			}
+		}
+	}
+}
+
 void Map::render() {
 	for (int x = 0; x < mapSize.x; x++) {
 		for (int y = 0; y < mapSize.y; y++) {
-			queue<Object*> q = grid[x * mapSize.x + y];
+			queue<Object*>& q = grid[x * mapSize.x + y];
 			for (int z = 0; z < q.size(); z++) {
 				Object* object = q.front();
 				object->render();
@@ -117,12 +169,4 @@ void Map::render() {
 }
 
 
-
-queue<Object*>& Map::getQueue(ivec2 position) {
-	return grid[position.x * mapSize.x + position.y];
-}
-
-queue<Object*>& Map::getQueue(int x, int y) {
-	return grid[x * mapSize.x + y];
-}
 

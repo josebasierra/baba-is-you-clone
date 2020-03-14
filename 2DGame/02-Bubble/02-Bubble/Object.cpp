@@ -13,6 +13,7 @@ Object::Object(Map* map,  ShaderProgram& shaderProgram, ObjectType type, ObjectN
 	this->name = name;
 	this->type = type;
 	this->pos = ivec2(0, 0);
+	this->hasMoved = false;
 
 	if (this->name == BABA && this->type == ITEM) {
 		spritesheet.loadFromFile("images/baba_anim.png", TEXTURE_PIXEL_FORMAT_RGBA);
@@ -103,7 +104,7 @@ Object::Object(Map* map,  ShaderProgram& shaderProgram, ObjectType type, ObjectN
 	}
 	else if (this->name == IS && this->type == OPERATOR) {
 		spritesheet.loadFromFile("images/is.png", TEXTURE_PIXEL_FORMAT_RGBA);
-		sprite = Sprite::createSprite(glm::ivec2(30, 16), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, &shaderProgram);
+		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, &shaderProgram);
 		sprite->setNumberAnimations(1);
 
 		sprite->setAnimationSpeed(0, 4);
@@ -113,7 +114,7 @@ Object::Object(Map* map,  ShaderProgram& shaderProgram, ObjectType type, ObjectN
 
 		sprite->changeAnimation(0);
 	}
-	else if (this->name == YOU && this->type == NOUN) {
+	else if (this->name == YOU && this->type == PROPERTY) {
 		spritesheet.loadFromFile("images/you.png", TEXTURE_PIXEL_FORMAT_RGBA);
 		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, &shaderProgram);
 		sprite->setNumberAnimations(1);
@@ -137,7 +138,7 @@ Object::Object(Map* map,  ShaderProgram& shaderProgram, ObjectType type, ObjectN
 
 		sprite->changeAnimation(0);
 	}
-	else if (this->name == WIN && this->type == NOUN) {
+	else if (this->name == WIN && this->type == PROPERTY) {
 		spritesheet.loadFromFile("images/win.png", TEXTURE_PIXEL_FORMAT_RGBA);
 		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, &shaderProgram);
 		sprite->setNumberAnimations(1);
@@ -161,7 +162,7 @@ Object::Object(Map* map,  ShaderProgram& shaderProgram, ObjectType type, ObjectN
 
 		sprite->changeAnimation(0);
 	}
-	else if (this->name == STOP && this->type == NOUN) {
+	else if (this->name == STOP && this->type == PROPERTY) {
 		spritesheet.loadFromFile("images/stop.png", TEXTURE_PIXEL_FORMAT_RGBA);
 		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, &shaderProgram);
 		sprite->setNumberAnimations(1);
@@ -185,7 +186,7 @@ Object::Object(Map* map,  ShaderProgram& shaderProgram, ObjectType type, ObjectN
 
 		sprite->changeAnimation(0);
 	}
-	else if (this->name == PUSH && this->type == NOUN) {
+	else if (this->name == PUSH && this->type == PROPERTY) {
 		spritesheet.loadFromFile("images/push.png", TEXTURE_PIXEL_FORMAT_RGBA);
 		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, &shaderProgram);
 		sprite->setNumberAnimations(1);
@@ -204,6 +205,13 @@ Object:: ~Object() {
 }
 
 
+ObjectType Object::getType() {
+	return this->type;
+}
+
+ObjectName Object::getName() {
+	return this->name;
+}
 
 void Object::update(int deltaTime)
 {
@@ -214,6 +222,11 @@ void Object::update(int deltaTime)
 void Object::render()
 {
 	sprite->render();
+}
+
+
+void Object::refresh() {
+	this->hasMoved = false;
 }
 
 
@@ -239,7 +252,9 @@ void Object::updateTurn() {
 bool Object::moveTo(ivec2 pos) {
 
 	if (map->move(this, this->pos, pos)) {
+
 		this->pos = pos;
+		this->hasMoved = true;
 
 		//compute and update sprite position only when object moves
 		float offset_x = float(pos.x) * map->getTileSize().x;
@@ -271,13 +286,30 @@ bool Object::setPos(int x, int y) {
 }
 
 
+bool Object::isWord() {
+	return type == NOUN || type == OPERATOR || type == PROPERTY;
+}
+
+
+void Object::addProperty(ObjectName name) {
+	if (name == PUSH) addProperty(IS_PUSH);
+	else if (name == STOP) addProperty(IS_STOP);
+	else if (name == YOU) addProperty(IS_YOU);
+	else if (name == WIN) addProperty(IS_WIN);
+}
+
+
 void Object::addProperty(Property property) {
 	properties.insert(property);
-
 }
 
 void Object::removeProperty(Property property) {
 	properties.erase(property);
+}
+
+
+void Object::cleanProperties() {
+	this->properties.clear();
 }
 
 bool Object::hasProperty(Property property) {

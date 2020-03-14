@@ -3,32 +3,12 @@
 #include "Sprite.h"
 #include <unordered_set>
 #include "Map.h"
-
+#include "ObjectEnums.h"
 
 using namespace glm;
 
-enum ObjectType
-{
-	NOUN, OPERATOR, PROPERTY, ITEM
-};
-
-enum ObjectName {
-	WALL, ROCK, FLAG, BABA,
-	IS,
-	PUSH, STOP, YOU, WIN
-};
-
-enum Property {
-	IS_PUSH, IS_STOP, IS_WIN, IS_YOU
-};
-
-enum Direction {
-	UP, DOWN, RIGHT, LEFT
-};
-
 
 class Map;
-
 class Object
 {
 public:
@@ -36,20 +16,27 @@ public:
 	Object(Map* map,  ShaderProgram& shaderProgram, ObjectType type, ObjectName name);
 	~Object();
 
-	uint getId();
+	ObjectType getType();
+	ObjectName getName();
 
 	void update(int deltaTime);
 	void render();
 
+
+	void refresh();
 	void updateTurn();
 
 	bool moveTo(ivec2 pos);
 	bool moveTo(int x, int y);
-
 	bool setPos(int x, int y);
 
+	bool isWord();
+
+	void addProperty(ObjectName name);
 	void addProperty(Property property);
+
 	void removeProperty(Property property);
+	void cleanProperties();
 	bool hasProperty(Property property);
 
 
@@ -62,6 +49,7 @@ private:
 	ObjectName name;
 
 	ivec2 pos;
+	bool hasMoved;
 
 	unordered_set<Property> properties;
 

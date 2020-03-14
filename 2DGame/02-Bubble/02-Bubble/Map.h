@@ -2,14 +2,14 @@
 #include <glm/glm.hpp>
 #include <vector>
 #include <queue>
-#include "Object.h"
 #include <iostream>
+#include "Object.h"
+#include "ObjectEnums.h"
 
 using namespace glm;
 
 
 class Object;
-
 class Map
 {
 
@@ -25,6 +25,7 @@ public:
 	bool move(Object* object, ivec2 pos_start, ivec2 pos_end);
 
 	bool isValidPosition(ivec2 pos);
+
 	// return true if there's STOP(and not PUSH) item
 	bool isBlocked(ivec2 pos);
 
@@ -32,11 +33,14 @@ public:
 
 	bool pushObjects(ivec2 pos, ivec2 dir);
 
+	Object* getWord(int x, int y);
+	void applyAllRules();
+	void applyRule(Object* w1, Object* w2, Object* w3);
+	void addProperty(ObjectName itemName, ObjectName propertyName);
+
 	void render();
 
 
-	queue<Object*>& getQueue(ivec2 position);
-	queue<Object*>& getQueue(int x, int y);
 
 private:
 
