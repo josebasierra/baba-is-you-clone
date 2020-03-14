@@ -24,9 +24,34 @@ Object::Object(Map* map,  ShaderProgram& shaderProgram, ObjectType type, ObjectN
 		sprite->addKeyframe(0, glm::vec2(12.f / 20.0f, 0.f));
 		sprite->addKeyframe(0, glm::vec2(13.f / 20.0f, 0.f));
 		sprite->addKeyframe(0, glm::vec2(14.f / 20.0f, 0.f));
+		
+		
+		/*sprite->setAnimationSpeed(LEFT, 8);
+		sprite->addKeyframe(LEFT, glm::vec2(11.f / 20.0f, 0.f));
+		sprite->addKeyframe(LEFT, glm::vec2(12.f / 20.0f, 0.f));
+		sprite->addKeyframe(LEFT, glm::vec2(13.f / 20.0f, 0.f));
+		sprite->addKeyframe(LEFT, glm::vec2(14.f / 20.0f, 0.f));
+
+		sprite->setAnimationSpeed(RIGHT, 8);
+		sprite->addKeyframe(RIGHT, glm::vec2(1.0f / 20.0f, 0.f));
+		sprite->addKeyframe(RIGHT, glm::vec2(2.0f / 20.0f, 0.f));
+		sprite->addKeyframe(RIGHT, glm::vec2(3.0f / 20.0f, 0.f));
+		sprite->addKeyframe(RIGHT, glm::vec2(4.0f / 20.0f, 0.f));
+		
+		sprite->setAnimationSpeed(UP, 8);
+		sprite->addKeyframe(UP, glm::vec2(6.0f / 20.0f, 0.f));
+		sprite->addKeyframe(UP, glm::vec2(7.0f / 20.0f, 0.f));
+		sprite->addKeyframe(UP, glm::vec2(8.0f / 20.0f, 0.f));
+		sprite->addKeyframe(UP, glm::vec2(9.0f / 20.0f, 0.f));
+
+		sprite->setAnimationSpeed(DOWN, 8);
+		sprite->addKeyframe(DOWN, glm::vec2(15.0f / 20.0f, 0.f));
+		sprite->addKeyframe(DOWN, glm::vec2(16.0f / 20.0f, 0.f));
+		sprite->addKeyframe(DOWN, glm::vec2(17.0f / 20.0f, 0.f));
+		sprite->addKeyframe(DOWN, glm::vec2(18.0f / 20.0f, 0.f));
+		*/
 
 		sprite->changeAnimation(0);
-		
 	}
 	else if (this->name == ROCK && this->type == ITEM) {
 		spritesheet.loadFromFile("images/Roca.png", TEXTURE_PIXEL_FORMAT_RGBA);
@@ -81,7 +106,7 @@ Object::Object(Map* map,  ShaderProgram& shaderProgram, ObjectType type, ObjectN
 		sprite = Sprite::createSprite(glm::ivec2(30, 16), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, &shaderProgram);
 		sprite->setNumberAnimations(1);
 
-		sprite->setAnimationSpeed(0, 8);
+		sprite->setAnimationSpeed(0, 4);
 		sprite->addKeyframe(0, glm::vec2(0.f, 1.f / 3.0f));
 		sprite->addKeyframe(0, glm::vec2(0.f, 2.f / 3.0f));
 		sprite->addKeyframe(0, glm::vec2(0.f, 3.f / 3.0f));
