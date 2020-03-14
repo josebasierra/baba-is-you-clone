@@ -120,6 +120,60 @@ bool Scene::init_Scene(const string &levelFile) {
 				object->addProperty(IS_WIN);
 				objects.push_back(object);
 			}
+			else if (tile == 5) {
+				Object* object = new Object(map, texProgram, NOUN, BABA);
+				object->setPos(x, y);
+				object->addProperty(IS_PUSH);
+				objects.push_back(object);
+			}
+			else if (tile == 6) {
+				Object* object = new Object(map, texProgram, OPERATOR, IS);
+				object->setPos(x, y);
+				object->addProperty(IS_PUSH);
+				objects.push_back(object);
+			}
+			else if (tile == 7) {
+				Object* object = new Object(map, texProgram, NOUN, YOU);
+				object->setPos(x, y);
+				object->addProperty(IS_PUSH);
+				objects.push_back(object);
+			}
+			else if (tile == 8) {
+				Object* object = new Object(map, texProgram, NOUN, FLAG);
+				object->setPos(x, y);
+				object->addProperty(IS_PUSH);
+				objects.push_back(object);
+			}
+			else if (tile == 9) {
+				Object* object = new Object(map, texProgram, NOUN, WIN);
+				object->setPos(x, y);
+				object->addProperty(IS_PUSH);
+				objects.push_back(object);
+			}
+			else if (tile == 10) {
+				Object* object = new Object(map, texProgram, NOUN, WALL);
+				object->setPos(x, y);
+				object->addProperty(IS_PUSH);
+				objects.push_back(object);
+			}
+			else if (tile == 11) {
+				Object* object = new Object(map, texProgram, NOUN, STOP);
+				object->setPos(x, y);
+				object->addProperty(IS_PUSH);
+				objects.push_back(object);
+			}
+			else if (tile == 12) {
+				Object* object = new Object(map, texProgram, NOUN, ROCK);
+				object->setPos(x, y);
+				object->addProperty(IS_PUSH);
+				objects.push_back(object);
+			}
+			else if (tile == 13) {
+				Object* object = new Object(map, texProgram, NOUN, PUSH);
+				object->setPos(x, y);
+				object->addProperty(IS_PUSH);
+				objects.push_back(object);
+			}
 		}
 #ifndef _WIN32
 		fin.get(tile);
