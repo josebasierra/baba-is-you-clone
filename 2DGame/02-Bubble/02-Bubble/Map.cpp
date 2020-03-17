@@ -131,8 +131,15 @@ void Map::applyAllRules() {
 void Map::applyRule(Object* w1, Object* w2, Object* w3) {
 	if (w1 == NULL || w2 == NULL || w3 == NULL) return;
 	if (w1->getType() == NOUN && w2->getType() == OPERATOR) {
+
+		// NOUN OPERATOR PROPERTY
 		if (w3->getType() == PROPERTY) {
 			addProperty(w1->getName(), w3->getName());
+		}
+
+		// NOUN OPERATOR NOUN
+		else if (w3->getType() == NOUN) {
+			transformItems(w1->getName(), w3->getName());
 		}
 	}
 }
@@ -153,6 +160,30 @@ void Map::addProperty(ObjectName itemName, ObjectName propertyName) {
 		}
 	}
 }
+
+
+void Map::transformItems(ObjectName name1, ObjectName name2) {
+	for (int x = 0; x < mapSize.x; x++) {
+		for (int y = 0; y < mapSize.y; y++) {
+			queue<Object*>& q = grid[x * mapSize.x + y];
+			for (int z = 0; z < q.size(); z++) {
+				Object* object = q.front();
+
+				if (object->getType() == ITEM && object->getName() == name1) {
+					object->transform(ITEM, name2);
+					cout << "transform" << endl;
+					cout << name2 << endl;
+				}
+					
+
+				q.pop();
+				q.push(object);
+			}
+		}
+	}
+}
+
+
 
 void Map::render() {
 	for (int x = 0; x < mapSize.x; x++) {

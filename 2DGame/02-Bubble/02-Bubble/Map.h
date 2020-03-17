@@ -37,6 +37,7 @@ public:
 	void applyAllRules();
 	void applyRule(Object* w1, Object* w2, Object* w3);
 	void addProperty(ObjectName itemName, ObjectName propertyName);
+	void transformItems(ObjectName name1, ObjectName name2);
 
 	void render();
 

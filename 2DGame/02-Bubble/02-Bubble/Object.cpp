@@ -15,9 +15,21 @@ Object::Object(Map* map,  ShaderProgram& shaderProgram, ObjectType type, ObjectN
 	this->pos = ivec2(0, 0);
 	this->hasMoved = false;
 
+	this->shaderProgram = &shaderProgram;
+	this->loadSprite();
+
+	
+}
+
+Object:: ~Object() {
+	delete sprite;
+}
+
+
+void Object::loadSprite() {
 	if (this->name == BABA && this->type == ITEM) {
 		spritesheet.loadFromFile("images/baba_anim.png", TEXTURE_PIXEL_FORMAT_RGBA);
-		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0 / 20.0, 1.0), &spritesheet, &shaderProgram);
+		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0 / 20.0, 1.0), &spritesheet, shaderProgram);
 		sprite->setNumberAnimations(1);
 
 		sprite->setAnimationSpeed(0, 8);
@@ -25,8 +37,8 @@ Object::Object(Map* map,  ShaderProgram& shaderProgram, ObjectType type, ObjectN
 		sprite->addKeyframe(0, glm::vec2(12.f / 20.0f, 0.f));
 		sprite->addKeyframe(0, glm::vec2(13.f / 20.0f, 0.f));
 		sprite->addKeyframe(0, glm::vec2(14.f / 20.0f, 0.f));
-		
-		
+
+
 		/*sprite->setAnimationSpeed(LEFT, 8);
 		sprite->addKeyframe(LEFT, glm::vec2(11.f / 20.0f, 0.f));
 		sprite->addKeyframe(LEFT, glm::vec2(12.f / 20.0f, 0.f));
@@ -38,7 +50,7 @@ Object::Object(Map* map,  ShaderProgram& shaderProgram, ObjectType type, ObjectN
 		sprite->addKeyframe(RIGHT, glm::vec2(2.0f / 20.0f, 0.f));
 		sprite->addKeyframe(RIGHT, glm::vec2(3.0f / 20.0f, 0.f));
 		sprite->addKeyframe(RIGHT, glm::vec2(4.0f / 20.0f, 0.f));
-		
+
 		sprite->setAnimationSpeed(UP, 8);
 		sprite->addKeyframe(UP, glm::vec2(6.0f / 20.0f, 0.f));
 		sprite->addKeyframe(UP, glm::vec2(7.0f / 20.0f, 0.f));
@@ -56,19 +68,19 @@ Object::Object(Map* map,  ShaderProgram& shaderProgram, ObjectType type, ObjectN
 	}
 	else if (this->name == ROCK && this->type == ITEM) {
 		spritesheet.loadFromFile("images/Roca.png", TEXTURE_PIXEL_FORMAT_RGBA);
-		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, &shaderProgram);
+		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, shaderProgram);
 		sprite->setNumberAnimations(1);
 
 		sprite->setAnimationSpeed(0, 8);
 		sprite->addKeyframe(0, glm::vec2(0.f, 1.f / 3.0f));
-		sprite->addKeyframe(0, glm::vec2(0.f,2.f / 3.0f));
-		sprite->addKeyframe(0, glm::vec2(0.f,3.f / 3.0f));
-		
+		sprite->addKeyframe(0, glm::vec2(0.f, 2.f / 3.0f));
+		sprite->addKeyframe(0, glm::vec2(0.f, 3.f / 3.0f));
+
 		sprite->changeAnimation(0);
 	}
 	else if (this->name == WALL && this->type == ITEM) {
 		spritesheet.loadFromFile("images/wall.png", TEXTURE_PIXEL_FORMAT_RGBA);
-		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, &shaderProgram);
+		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, shaderProgram);
 		sprite->setNumberAnimations(1);
 
 		sprite->setAnimationSpeed(0, 8);
@@ -80,19 +92,19 @@ Object::Object(Map* map,  ShaderProgram& shaderProgram, ObjectType type, ObjectN
 	}
 	else if (this->name == FLAG && this->type == ITEM) {
 		spritesheet.loadFromFile("images/flag.png", TEXTURE_PIXEL_FORMAT_RGBA);
-		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, &shaderProgram);
+		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, shaderProgram);
 		sprite->setNumberAnimations(1);
 
 		sprite->setAnimationSpeed(0, 8);
-		sprite->addKeyframe(0, glm::vec2(0.f, 1.f / 3.0f)); 
+		sprite->addKeyframe(0, glm::vec2(0.f, 1.f / 3.0f));
 		sprite->addKeyframe(0, glm::vec2(0.f, 2.f / 3.0f));
-		sprite->addKeyframe(0, glm::vec2(0.f, 3.f / 3.0f)); 
+		sprite->addKeyframe(0, glm::vec2(0.f, 3.f / 3.0f));
 
 		sprite->changeAnimation(0);
 	}
 	else if (this->name == BABA && this->type == NOUN) {
 		spritesheet.loadFromFile("images/baba_text.png", TEXTURE_PIXEL_FORMAT_RGBA);
-		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, &shaderProgram);
+		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, shaderProgram);
 		sprite->setNumberAnimations(1);
 
 		sprite->setAnimationSpeed(0, 8);
@@ -104,7 +116,7 @@ Object::Object(Map* map,  ShaderProgram& shaderProgram, ObjectType type, ObjectN
 	}
 	else if (this->name == IS && this->type == OPERATOR) {
 		spritesheet.loadFromFile("images/is.png", TEXTURE_PIXEL_FORMAT_RGBA);
-		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, &shaderProgram);
+		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, shaderProgram);
 		sprite->setNumberAnimations(1);
 
 		sprite->setAnimationSpeed(0, 4);
@@ -116,7 +128,7 @@ Object::Object(Map* map,  ShaderProgram& shaderProgram, ObjectType type, ObjectN
 	}
 	else if (this->name == YOU && this->type == PROPERTY) {
 		spritesheet.loadFromFile("images/you.png", TEXTURE_PIXEL_FORMAT_RGBA);
-		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, &shaderProgram);
+		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, shaderProgram);
 		sprite->setNumberAnimations(1);
 
 		sprite->setAnimationSpeed(0, 8);
@@ -128,7 +140,7 @@ Object::Object(Map* map,  ShaderProgram& shaderProgram, ObjectType type, ObjectN
 	}
 	else if (this->name == FLAG && this->type == NOUN) {
 		spritesheet.loadFromFile("images/flag_text.png", TEXTURE_PIXEL_FORMAT_RGBA);
-		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, &shaderProgram);
+		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, shaderProgram);
 		sprite->setNumberAnimations(1);
 
 		sprite->setAnimationSpeed(0, 8);
@@ -140,7 +152,7 @@ Object::Object(Map* map,  ShaderProgram& shaderProgram, ObjectType type, ObjectN
 	}
 	else if (this->name == WIN && this->type == PROPERTY) {
 		spritesheet.loadFromFile("images/win.png", TEXTURE_PIXEL_FORMAT_RGBA);
-		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, &shaderProgram);
+		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, shaderProgram);
 		sprite->setNumberAnimations(1);
 
 		sprite->setAnimationSpeed(0, 8);
@@ -152,7 +164,7 @@ Object::Object(Map* map,  ShaderProgram& shaderProgram, ObjectType type, ObjectN
 	}
 	else if (this->name == WALL && this->type == NOUN) {
 		spritesheet.loadFromFile("images/wall_text.png", TEXTURE_PIXEL_FORMAT_RGBA);
-		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, &shaderProgram);
+		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, shaderProgram);
 		sprite->setNumberAnimations(1);
 
 		sprite->setAnimationSpeed(0, 8);
@@ -164,7 +176,7 @@ Object::Object(Map* map,  ShaderProgram& shaderProgram, ObjectType type, ObjectN
 	}
 	else if (this->name == STOP && this->type == PROPERTY) {
 		spritesheet.loadFromFile("images/stop.png", TEXTURE_PIXEL_FORMAT_RGBA);
-		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, &shaderProgram);
+		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, shaderProgram);
 		sprite->setNumberAnimations(1);
 
 		sprite->setAnimationSpeed(0, 8);
@@ -176,7 +188,7 @@ Object::Object(Map* map,  ShaderProgram& shaderProgram, ObjectType type, ObjectN
 	}
 	else if (this->name == ROCK && this->type == NOUN) {
 		spritesheet.loadFromFile("images/rock_text.png", TEXTURE_PIXEL_FORMAT_RGBA);
-		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, &shaderProgram);
+		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, shaderProgram);
 		sprite->setNumberAnimations(1);
 
 		sprite->setAnimationSpeed(0, 8);
@@ -188,7 +200,7 @@ Object::Object(Map* map,  ShaderProgram& shaderProgram, ObjectType type, ObjectN
 	}
 	else if (this->name == PUSH && this->type == PROPERTY) {
 		spritesheet.loadFromFile("images/push.png", TEXTURE_PIXEL_FORMAT_RGBA);
-		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, &shaderProgram);
+		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, shaderProgram);
 		sprite->setNumberAnimations(1);
 
 		sprite->setAnimationSpeed(0, 8);
@@ -198,10 +210,22 @@ Object::Object(Map* map,  ShaderProgram& shaderProgram, ObjectType type, ObjectN
 
 		sprite->changeAnimation(0);
 	}
+
 }
 
-Object:: ~Object() {
+
+void Object::transform(ObjectType type, ObjectName name) {
+
+	this->type = type;
+	this->name = name;
+
 	delete sprite;
+	this->loadSprite();
+
+	//set sprite position
+	float offset_x = float(pos.x) * map->getTileSize().x;
+	float offset_y = float(pos.y) * map->getTileSize().y;
+	sprite->setPosition(glm::vec2(float(map->getOrigin().x + offset_x), float((map->getOrigin().y + offset_y))));
 }
 
 
@@ -248,6 +272,7 @@ void Object::updateTurn() {
 		}
 	}
 }
+
 
 bool Object::moveTo(ivec2 pos) {
 

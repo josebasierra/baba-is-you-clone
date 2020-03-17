@@ -16,14 +16,18 @@ public:
 	Object(Map* map,  ShaderProgram& shaderProgram, ObjectType type, ObjectName name);
 	~Object();
 
+	void loadSprite();
+	void transform(ObjectType type, ObjectName name);
+
 	ObjectType getType();
 	ObjectName getName();
 
 	void update(int deltaTime);
 	void render();
 
-
+	//object can move again
 	void refresh();
+
 	void updateTurn();
 
 	bool moveTo(ivec2 pos);
@@ -44,6 +48,7 @@ private:
 
 	Sprite *sprite;
 	Texture spritesheet;
+	ShaderProgram* shaderProgram;
 
 	ObjectType type;
 	ObjectName name;
