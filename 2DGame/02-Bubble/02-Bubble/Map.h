@@ -19,6 +19,7 @@ public:
 
 	ivec2 getOrigin();
 	ivec2 getTileSize();
+	ivec2 getMapTotalSize();
 
 	void add(Object* object, ivec2 position);
 	void remove(Object* object, ivec2 position);

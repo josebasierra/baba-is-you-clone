@@ -15,6 +15,7 @@ Map::Map(ivec2 mapOrigin, ivec2 mapSize, ivec2 tileSize) {
 	this->tileSize = tileSize;
 	
 	grid = vector<queue<Object*>>(mapSize.x * mapSize.y);
+
 }
 
 
@@ -24,6 +25,10 @@ ivec2 Map::getOrigin() {
 
 ivec2 Map::getTileSize() {
 	return tileSize;
+}
+
+ivec2 Map::getMapTotalSize() {
+	return tileSize * mapSize;
 }
 
 
@@ -47,6 +52,8 @@ bool Map::move(Object* object, ivec2 pos1, ivec2 pos2) {
 	
 	ivec2 dir = pos2 - pos1;
 
+	cout << pos1.x << " " << pos1.y << endl;
+
 	if (isValidPosition(pos2) && !isBlocked(pos2) && pushObjects(pos2, dir)) {
 		remove(object, pos1);
 		add(object, pos2);
@@ -59,7 +66,6 @@ bool Map::move(Object* object, ivec2 pos1, ivec2 pos2) {
 
 // true if can push objects in grid position 'pos' in direction 'dir'
 bool Map::pushObjects(ivec2 pos, ivec2 dir) {
-	if (!isValidPosition(pos + dir)) return false;
 	queue<Object*> & q = grid[pos.x * mapSize.x + pos.y];
 
 	bool canPush = true;
@@ -169,12 +175,8 @@ void Map::transformItems(ObjectName name1, ObjectName name2) {
 			for (int z = 0; z < q.size(); z++) {
 				Object* object = q.front();
 
-				if (object->getType() == ITEM && object->getName() == name1) {
+				if (object->getType() == ITEM && object->getName() == name1) 
 					object->transform(ITEM, name2);
-					cout << "transform" << endl;
-					cout << name2 << endl;
-				}
-					
 
 				q.pop();
 				q.push(object);

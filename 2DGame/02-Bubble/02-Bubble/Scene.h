@@ -31,6 +31,8 @@ private:
 
 private:
 	Map *map;
+	Sprite* background;
+	Texture spritesheet;
 
 	vector<Object*> objects;
 	ShaderProgram texProgram;
