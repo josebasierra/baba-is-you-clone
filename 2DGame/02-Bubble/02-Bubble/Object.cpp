@@ -17,8 +17,6 @@ Object::Object(Map* map,  ShaderProgram& shaderProgram, ObjectType type, ObjectN
 
 	this->shaderProgram = &shaderProgram;
 	this->loadSprite();
-
-	
 }
 
 Object:: ~Object() {
@@ -210,9 +208,55 @@ void Object::loadSprite() {
 
 		sprite->changeAnimation(0);
 	}
+	else if (this->name == SKULL && this->type == ITEM) {
+		spritesheet.loadFromFile("images/skull.png", TEXTURE_PIXEL_FORMAT_RGBA);
+		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, shaderProgram);
+		sprite->setNumberAnimations(1);
 
+		sprite->setAnimationSpeed(0, 8);
+		sprite->addKeyframe(0, glm::vec2(0.f, 1.f / 3.0f));
+		sprite->addKeyframe(0, glm::vec2(0.f, 2.f / 3.0f));
+		sprite->addKeyframe(0, glm::vec2(0.f, 3.f / 3.0f));
+
+		sprite->changeAnimation(0);
+	}
+	else if (this->name == SKULL && this->type == NOUN) {
+		spritesheet.loadFromFile("images/skull_text.png", TEXTURE_PIXEL_FORMAT_RGBA);
+		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, shaderProgram);
+		sprite->setNumberAnimations(1);
+
+		sprite->setAnimationSpeed(0, 8);
+		sprite->addKeyframe(0, glm::vec2(0.f, 1.f / 3.0f));
+		sprite->addKeyframe(0, glm::vec2(0.f, 2.f / 3.0f));
+		sprite->addKeyframe(0, glm::vec2(0.f, 3.f / 3.0f));
+
+		sprite->changeAnimation(0);
+	}
+	else if (this->name == DEFEAT && this->type == PROPERTY) {
+		spritesheet.loadFromFile("images/defeat.png", TEXTURE_PIXEL_FORMAT_RGBA);
+		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, shaderProgram);
+		sprite->setNumberAnimations(1);
+
+		sprite->setAnimationSpeed(0, 8);
+		sprite->addKeyframe(0, glm::vec2(0.f, 1.f / 3.0f));
+		sprite->addKeyframe(0, glm::vec2(0.f, 2.f / 3.0f));
+		sprite->addKeyframe(0, glm::vec2(0.f, 3.f / 3.0f));
+
+		sprite->changeAnimation(0);
+	}
+	else if (this->name == AND && this->type == OPERATOR) {
+		spritesheet.loadFromFile("images/and.png", TEXTURE_PIXEL_FORMAT_RGBA);
+		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, shaderProgram);
+		sprite->setNumberAnimations(1);
+
+		sprite->setAnimationSpeed(0, 8);
+		sprite->addKeyframe(0, glm::vec2(0.f, 1.f / 3.0f));
+		sprite->addKeyframe(0, glm::vec2(0.f, 2.f / 3.0f));
+		sprite->addKeyframe(0, glm::vec2(0.f, 3.f / 3.0f));
+
+		sprite->changeAnimation(0);
+	}
 }
-
 
 void Object::transform(ObjectType type, ObjectName name) {
 
@@ -227,7 +271,6 @@ void Object::transform(ObjectType type, ObjectName name) {
 	float offset_y = float(pos.y) * map->getTileSize().y;
 	sprite->setPosition(glm::vec2(float(map->getOrigin().x + offset_x), float((map->getOrigin().y + offset_y))));
 }
-
 
 ObjectType Object::getType() {
 	return this->type;

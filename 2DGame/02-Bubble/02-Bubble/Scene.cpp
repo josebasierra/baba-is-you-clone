@@ -42,7 +42,7 @@ void Scene::init()
 	//----------------------------------------------
 
 	initShaders();
-	init_Scene("levels/level1_prueba.txt");
+	init_Scene("levels/level1.txt");
 
 	
 	spritesheet.loadFromFile("images/black.png", TEXTURE_PIXEL_FORMAT_RGBA);
@@ -51,6 +51,8 @@ void Scene::init()
 
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
 	currentTime = 0.0f;
+
+	map->applyAllRules();
 }
 
 bool Scene::init_Scene(const string &levelFile) {
@@ -85,25 +87,21 @@ bool Scene::init_Scene(const string &levelFile) {
 			if (tile == 1) {
 				Object* object = new Object(map, texProgram, ITEM, BABA);
 				object->setPos(x, y);
-				object->addProperty(IS_YOU);
 				objects.push_back(object);
 			}
 			else if (tile == 2) {
 				Object* object = new Object(map, texProgram, ITEM, ROCK);
 				object->setPos(x, y);
-				object->addProperty(IS_PUSH);
 				objects.push_back(object);
 			}
 			else if (tile == 3) {
 				Object* object = new Object(map, texProgram, ITEM, WALL);
 				object->setPos(x, y);
-				object->addProperty(IS_STOP);
 				objects.push_back(object);
 			}
 			else if (tile == 4) {
 				Object* object = new Object(map, texProgram, ITEM, FLAG);
 				object->setPos(x, y);
-				object->addProperty(IS_WIN);
 				objects.push_back(object);
 			}
 			else if (tile == 5) {
@@ -156,6 +154,29 @@ bool Scene::init_Scene(const string &levelFile) {
 			}
 			else if (tile == 13) {
 				Object* object = new Object(map, texProgram, PROPERTY, PUSH);
+				object->setPos(x, y);
+				object->addProperty(IS_PUSH);
+				objects.push_back(object);
+			}
+			else if (tile == 14) {
+				Object* object = new Object(map, texProgram, ITEM, SKULL);
+				object->setPos(x, y);
+				objects.push_back(object);
+			}
+			else if (tile == 15) {
+				Object* object = new Object(map, texProgram, NOUN, SKULL);
+				object->setPos(x, y);
+				object->addProperty(IS_PUSH);
+				objects.push_back(object);
+			}
+			else if (tile == 16) {
+				Object* object = new Object(map, texProgram, PROPERTY, DEFEAT);
+				object->setPos(x, y);
+				object->addProperty(IS_PUSH);
+				objects.push_back(object);
+			}
+			else if (tile == 17) {
+				Object* object = new Object(map, texProgram, OPERATOR, AND);
 				object->setPos(x, y);
 				object->addProperty(IS_PUSH);
 				objects.push_back(object);

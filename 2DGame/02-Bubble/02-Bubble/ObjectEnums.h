@@ -6,11 +6,11 @@ enum ObjectType
 };
 
 enum ObjectName {
-	WALL, ROCK, FLAG, BABA,
-	IS,
-	PUSH, STOP, YOU, WIN
+	WALL, ROCK, FLAG, BABA, SKULL, 
+	IS, AND, 
+	PUSH, STOP, YOU, WIN, DEFEAT
 };
 
 enum Property {
-	IS_PUSH, IS_STOP, IS_WIN, IS_YOU
+	IS_PUSH, IS_STOP, IS_WIN, IS_DEFEAT, IS_YOU
 };

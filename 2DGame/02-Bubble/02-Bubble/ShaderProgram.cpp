@@ -12,6 +12,7 @@ ShaderProgram::ShaderProgram()
 void ShaderProgram::init()
 {
 	programId = glCreateProgram();
+	//glClearColor(0.0,0.0,0.0,1.0);
 }
 
 void ShaderProgram::addShader(const Shader &shader)
