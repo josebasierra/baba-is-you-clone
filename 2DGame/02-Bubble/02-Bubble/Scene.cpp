@@ -8,6 +8,10 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
+#include <windows.h>
+#include <mmsystem.h>
+//#include <SFML/Audio.hpp>
+
 
 #define SCREEN_X 32
 #define SCREEN_Y 16
@@ -53,6 +57,14 @@ void Scene::init()
 	currentTime = 0.0f;
 
 	map->applyAllRules();
+	
+
+	/*sf::Music music;
+	if (!music.openFromFile("music/baba_is_you_ost.wav"))
+		cout << "error";
+	music.play(); Esto es de la libreria sfml*/
+	
+	PlaySound(TEXT("music/baba_is_you_ost.wav"),NULL ,SND_ASYNC);
 }
 
 bool Scene::init_Scene(const string &levelFile) {
@@ -222,9 +234,11 @@ void Scene::update(int deltaTime)
 		map->applyAllRules();
 
 		currentTurnTime = 0;
+		
+		//PlaySound(NULL,NULL, SND_ASYNC);
 	}
 
-
+	
 
 	//apply new rules properties
 	//map-> check new rules (remove all properties and apply new ones, transform objects)
