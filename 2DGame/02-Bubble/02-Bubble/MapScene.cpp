@@ -1,16 +1,13 @@
 #include <iostream>
 #include <cmath>
 #include <glm/gtc/matrix_transform.hpp>
-#include "Scene.h"
+#include "MapScene.h"
 #include "Game.h"
 #include <GL/glew.h>
 #include <GL/glut.h>
 #include <fstream>
 #include <sstream>
 #include <vector>
-#include <windows.h>
-#include <mmsystem.h>
-//#include <SFML/Audio.hpp>
 
 
 #define SCREEN_X 32
@@ -19,55 +16,95 @@
 #define INIT_PLAYER_X_TILES 4
 #define INIT_PLAYER_Y_TILES 25
 
-
 #define TURN_TIME 200
 
-Scene::Scene()
+
+MapScene::MapScene()
 {
 	map = NULL;
+	currentTime = 0.0f;
+	currentTurnTime = 0.0f;
 }
 
-Scene::~Scene()
+MapScene::~MapScene()
 {
 	if(map != NULL)
 		delete map;
 }
 
 
-void Scene::init()
+void MapScene::init()
 {
-	//output console
-	/*FILE* fp;
+	BaseScene::init();
 
-	AllocConsole();
-	freopen_s(&fp, "CONIN$", "r", stdin);
-	freopen_s(&fp, "CONOUT$", "w", stdout);
-	freopen_s(&fp, "CONOUT$", "w", stderr);*/
-	//----------------------------------------------
+	//runConsole();
 
-	initShaders();
-	//init_Scene("levels/level2.txt");
+	//load and init map 
+	initMap("levels/level1.txt");
 
-	
-	spritesheet.loadFromFile("images/Menu.png", TEXTURE_PIXEL_FORMAT_RGBA);
-	background = Sprite::createSprite(vec2(1280.0,720.0), glm::vec2(1.f, 1.f), &spritesheet, &texProgram);
-	background->setPosition(vec2(0.0,0.0));
+	//load background
+	spritesheet.loadFromFile("images/black.png", TEXTURE_PIXEL_FORMAT_RGBA);
+	background = Sprite::createSprite(map->getMapTotalSize(), glm::vec2(1.f, 1.f), &spritesheet, &texProgram);
+	background->setPosition(map->getOrigin());
 
+	//init camera
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
-	currentTime = 0.0f;
 
-	//map->applyAllRules();
-	
-
-	/*sf::Music music;
-	if (!music.openFromFile("music/baba_is_you_ost.wav"))
-		cout << "error";
-	music.play(); Esto es de la libreria sfml*/
-	
-	PlaySound(TEXT("music/baba_is_you_ost.wav"),NULL ,SND_ASYNC);
 }
 
-bool Scene::init_Scene(const string &levelFile) {
+
+void MapScene::update(int deltaTime)
+{
+	currentTime += deltaTime;
+
+	//update object animations
+	for (int i = 0; i < objects.size(); i++)
+		objects[i]->update(deltaTime);
+
+	//update turn
+	currentTurnTime += deltaTime;
+	if (Game::instance().movementKeyPressed() && currentTurnTime >= float(TURN_TIME) ) {
+
+		//refresh objects (hasMoved = false)
+		for (int i = 0; i < objects.size(); i++)
+			objects[i]->refresh();
+
+		//apply movement to objects
+		for (int i = 0; i < objects.size(); i++)
+			objects[i]->updateTurn();
+
+		//remove all properties (except words)
+		for (int i = 0; i < objects.size(); i++) {
+			Object* obj = objects[i];
+			if (!obj->isWord()) obj->cleanProperties();
+		}
+
+		//check rules and apply new properties
+		map->applyAllRules();
+
+		currentTurnTime = 0;
+	}
+
+}
+
+
+void MapScene::render()
+{
+	glm::mat4 modelview;
+
+	texProgram.use();
+	texProgram.setUniformMatrix4f("projection", projection);
+	texProgram.setUniform4f("color", 1.0f, 1.0f, 1.0f, 1.0f);
+	modelview = glm::mat4(1.0f);
+	texProgram.setUniformMatrix4f("modelview", modelview);
+	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
+
+	background->render();
+	map->render();
+}
+
+
+bool MapScene::initMap(const string& levelFile) {
 	//obtengo datos del file
 
 	ifstream fin;
@@ -91,9 +128,9 @@ bool Scene::init_Scene(const string &levelFile) {
 	sstream >> tileSize.x >> tileSize.y;
 	map = new Map(glm::ivec2(SCREEN_X, SCREEN_Y), mapSize, tileSize);
 
-	for (int y = 0; y<mapSize.y; y++)
+	for (int y = 0; y < mapSize.y; y++)
 	{
-		for (int x = 0; x<mapSize.x; x++)
+		for (int x = 0; x < mapSize.x; x++)
 		{
 			fin >> tile;
 			if (tile == 1) {
@@ -200,94 +237,15 @@ bool Scene::init_Scene(const string &levelFile) {
 	}
 	fin.close();
 
+	map->applyAllRules();
 	return true;
 }
 
+void MapScene::runConsole() {
+	FILE* fp;
 
-void Scene::update(int deltaTime)
-{
-	currentTime += deltaTime;
-
-	//update object animations
-	for (int i = 0; i < objects.size(); i++)
-		objects[i]->update(deltaTime);
-
-	//update turn
-	currentTurnTime += deltaTime;
-	if (Game::instance().movementKeyPressed() && currentTurnTime >= float(TURN_TIME) ) {
-
-		//refresh objects (hasMoved = false)
-		for (int i = 0; i < objects.size(); i++)
-			objects[i]->refresh();
-
-		//apply movement to objects
-		for (int i = 0; i < objects.size(); i++)
-			objects[i]->updateTurn();
-
-		//remove all properties (except words)
-		for (int i = 0; i < objects.size(); i++) {
-			Object* obj = objects[i];
-			if (!obj->isWord()) obj->cleanProperties();
-		}
-
-		//check rules and apply new properties
-		map->applyAllRules();
-
-		currentTurnTime = 0;
-		
-		//PlaySound(NULL,NULL, SND_ASYNC);
-	}
-
-	
-
-	//apply new rules properties
-	//map-> check new rules (remove all properties and apply new ones, transform objects)
+	AllocConsole();
+	freopen_s(&fp, "CONIN$", "r", stdin);
+	freopen_s(&fp, "CONOUT$", "w", stdout);
+	freopen_s(&fp, "CONOUT$", "w", stderr);
 }
-
-void Scene::render()
-{
-	glm::mat4 modelview;
-
-	texProgram.use();
-	texProgram.setUniformMatrix4f("projection", projection);
-	texProgram.setUniform4f("color", 1.0f, 1.0f, 1.0f, 1.0f);
-	modelview = glm::mat4(1.0f);
-	texProgram.setUniformMatrix4f("modelview", modelview);
-	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
-
-	background->render();
-	//map->render();
-}
-
-void Scene::initShaders()
-{
-	Shader vShader, fShader;
-
-	vShader.initFromFile(VERTEX_SHADER, "shaders/texture.vert");
-	if(!vShader.isCompiled())
-	{
-		cout << "Vertex Shader Error" << endl;
-		cout << "" << vShader.log() << endl << endl;
-	}
-	fShader.initFromFile(FRAGMENT_SHADER, "shaders/texture.frag");
-	if(!fShader.isCompiled())
-	{
-		cout << "Fragment Shader Error" << endl;
-		cout << "" << fShader.log() << endl << endl;
-	}
-	texProgram.init();
-	texProgram.addShader(vShader);
-	texProgram.addShader(fShader);
-	texProgram.link();
-	if(!texProgram.isLinked())
-	{
-		cout << "Shader Linking Error" << endl;
-		cout << "" << texProgram.log() << endl << endl;
-	}
-	texProgram.bindFragmentOutput("outColor");
-	vShader.free();
-	fShader.free();
-}
-
-
-

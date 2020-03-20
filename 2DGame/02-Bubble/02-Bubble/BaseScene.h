@@ -1,7 +1,4 @@
-#ifndef _SCENE_INCLUDE
-#define _SCENE_INCLUDE
-
-
+#pragma once
 #include <glm/glm.hpp>
 #include "ShaderProgram.h"
 #include "Map.h"
@@ -14,36 +11,24 @@
 // It is responsible for updating and render them.
 
 
-class Scene
+class BaseScene
 {
 
 public:
-	Scene();
-	~Scene();
+	void virtual init();
+	void virtual update(int deltaTime);
+	void virtual render();
 
-	void init();
-	void update(int deltaTime);
-	void render();
-	bool init_Scene(const string &levelFile);
 
-private:
+protected:
 	void initShaders();
 
-private:
-	Map *map;
+protected:
 	Sprite* background;
 	Texture spritesheet;
 
-	vector<Object*> objects;
 	ShaderProgram texProgram;
-
-	float currentTime;
-	float currentTurnTime;
 
 	glm::mat4 projection;
 
 };
-
-
-#endif // _SCENE_INCLUDE
-
