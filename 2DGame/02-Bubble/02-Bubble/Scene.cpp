@@ -37,16 +37,16 @@ Scene::~Scene()
 void Scene::init()
 {
 	//output console
-	FILE* fp;
+	/*FILE* fp;
 
 	AllocConsole();
 	freopen_s(&fp, "CONIN$", "r", stdin);
 	freopen_s(&fp, "CONOUT$", "w", stdout);
-	freopen_s(&fp, "CONOUT$", "w", stderr);
+	freopen_s(&fp, "CONOUT$", "w", stderr);*/
 	//----------------------------------------------
 
 	initShaders();
-	init_Scene("levels/level1.txt");
+	init_Scene("levels/level2.txt");
 
 	
 	spritesheet.loadFromFile("images/black.png", TEXTURE_PIXEL_FORMAT_RGBA);
