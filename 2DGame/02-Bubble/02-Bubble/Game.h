@@ -2,7 +2,7 @@
 #define _GAME_INCLUDE
 
 
-#include "BaseScene.h"
+
 #include "MapScene.h"
 
 
@@ -44,6 +44,9 @@ public:
 	bool getSpecialKey(int key) const;
 
 	bool movementKeyPressed();
+
+	void changeScene(SceneId id);
+	void runConsole();
 
 private:
 	bool bPlay;                       // Continue to play game?

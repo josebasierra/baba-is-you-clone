@@ -1,10 +1,9 @@
 #pragma once
 #include <glm/glm.hpp>
 #include "ShaderProgram.h"
-#include "Map.h"
-#include "Player.h"
-#include <vector>
-#include "Object.h"
+#include "Sprite.h"
+#include "SceneEnums.h"
+
 
 
 // Scene contains all the entities of our game.

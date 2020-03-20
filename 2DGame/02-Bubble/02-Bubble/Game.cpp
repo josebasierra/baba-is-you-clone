@@ -76,6 +76,18 @@ bool Game::movementKeyPressed() {
 		Game::instance().getSpecialKey(GLUT_KEY_DOWN);
 }
 
+void Game::changeScene(SceneId id) {
+
+}
+
+void Game::runConsole() {
+	FILE* fp;
+	AllocConsole();
+	freopen_s(&fp, "CONIN$", "r", stdin);
+	freopen_s(&fp, "CONOUT$", "w", stdout);
+	freopen_s(&fp, "CONOUT$", "w", stderr);
+}
+
 
 
 

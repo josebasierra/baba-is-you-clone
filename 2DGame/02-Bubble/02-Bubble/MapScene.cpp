@@ -9,6 +9,11 @@
 #include <sstream>
 #include <vector>
 
+#include <windows.h>
+#include <mmsystem.h>
+#include <irrKlang.h>
+using namespace irrklang;
+#pragma comment(lib, "irrKlang.lib") 
 
 #define SCREEN_X 32
 #define SCREEN_Y 16
@@ -37,7 +42,7 @@ void MapScene::init()
 {
 	BaseScene::init();
 
-	//runConsole();
+	//Game::instance().runConsole();
 
 	//load and init map 
 	initMap("levels/level1.txt");
@@ -50,6 +55,12 @@ void MapScene::init()
 	//init camera
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
 
+
+	//music test
+	ISoundEngine* engine = createIrrKlangDevice();
+	if (!engine)
+		std::cout << "error";
+	engine->play2D("music/baba_is_you_ost.wav", true);
 }
 
 
@@ -85,6 +96,8 @@ void MapScene::update(int deltaTime)
 		currentTurnTime = 0;
 	}
 
+
+	
 }
 
 
@@ -241,11 +254,7 @@ bool MapScene::initMap(const string& levelFile) {
 	return true;
 }
 
-void MapScene::runConsole() {
-	FILE* fp;
 
-	AllocConsole();
-	freopen_s(&fp, "CONIN$", "r", stdin);
-	freopen_s(&fp, "CONOUT$", "w", stdout);
-	freopen_s(&fp, "CONOUT$", "w", stderr);
-}
+
+
+
