@@ -46,17 +46,17 @@ void Scene::init()
 	//----------------------------------------------
 
 	initShaders();
-	init_Scene("levels/level2.txt");
+	//init_Scene("levels/level2.txt");
 
 	
-	spritesheet.loadFromFile("images/black.png", TEXTURE_PIXEL_FORMAT_RGBA);
-	background = Sprite::createSprite(map->getMapTotalSize(), glm::vec2(1.f, 1.f), &spritesheet, &texProgram);
-	background->setPosition(map->getOrigin());
+	spritesheet.loadFromFile("images/Menu.png", TEXTURE_PIXEL_FORMAT_RGBA);
+	background = Sprite::createSprite(vec2(1280.0,720.0), glm::vec2(1.f, 1.f), &spritesheet, &texProgram);
+	background->setPosition(vec2(0.0,0.0));
 
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
 	currentTime = 0.0f;
 
-	map->applyAllRules();
+	//map->applyAllRules();
 	
 
 	/*sf::Music music;
@@ -256,7 +256,7 @@ void Scene::render()
 	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
 
 	background->render();
-	map->render();
+	//map->render();
 }
 
 void Scene::initShaders()

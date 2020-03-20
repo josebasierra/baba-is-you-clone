@@ -1,5 +1,5 @@
 TILEMAP
-25 20							-- Size of tile map in tiles
+25 25							-- Size of tile map in tiles
 32 32							-- Tile size & block size
 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 15 6 16 
 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
