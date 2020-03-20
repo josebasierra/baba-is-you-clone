@@ -10,8 +10,10 @@
 #include <vector>
 #include <windows.h>
 #include <mmsystem.h>
-//#include <SFML/Audio.hpp>
+#include <irrKlang.h>
+using namespace irrklang;
 
+#pragma comment(lib, "irrKlang.lib") 
 
 #define SCREEN_X 32
 #define SCREEN_Y 16
@@ -46,25 +48,23 @@ void Scene::init()
 	//----------------------------------------------
 
 	initShaders();
-	//init_Scene("levels/level2.txt");
+	init_Scene("levels/level1.txt");
 
 	
-	spritesheet.loadFromFile("images/Menu.png", TEXTURE_PIXEL_FORMAT_RGBA);
-	background = Sprite::createSprite(vec2(1280.0,720.0), glm::vec2(1.f, 1.f), &spritesheet, &texProgram);
-	background->setPosition(vec2(0.0,0.0));
+	spritesheet.loadFromFile("images/black.png", TEXTURE_PIXEL_FORMAT_RGBA);
+	background = Sprite::createSprite(map->getMapTotalSize(), glm::vec2(1.f, 1.f), &spritesheet, &texProgram);
+	background->setPosition(map->getOrigin());
 
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
 	currentTime = 0.0f;
 
-	//map->applyAllRules();
+	map->applyAllRules();
 	
-
-	/*sf::Music music;
-	if (!music.openFromFile("music/baba_is_you_ost.wav"))
+	ISoundEngine* engine = createIrrKlangDevice();
+	if (!engine)
 		cout << "error";
-	music.play(); Esto es de la libreria sfml*/
+	engine->play2D("music/baba_is_you_ost.wav", true);
 	
-	PlaySound(TEXT("music/baba_is_you_ost.wav"),NULL ,SND_ASYNC);
 }
 
 bool Scene::init_Scene(const string &levelFile) {
@@ -234,8 +234,6 @@ void Scene::update(int deltaTime)
 		map->applyAllRules();
 
 		currentTurnTime = 0;
-		
-		//PlaySound(NULL,NULL, SND_ASYNC);
 	}
 
 	
@@ -256,7 +254,7 @@ void Scene::render()
 	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
 
 	background->render();
-	//map->render();
+	map->render();
 }
 
 void Scene::initShaders()
