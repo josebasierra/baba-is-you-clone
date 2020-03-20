@@ -9,11 +9,8 @@
 #include <sstream>
 #include <vector>
 
-#include <windows.h>
-#include <mmsystem.h>
 #include <irrKlang.h>
 using namespace irrklang;
-#pragma comment(lib, "irrKlang.lib") 
 
 #define SCREEN_X 32
 #define SCREEN_Y 16
