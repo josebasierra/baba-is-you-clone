@@ -42,7 +42,7 @@ void MapScene::init()
 {
 	BaseScene::init();
 
-	//Game::instance().runConsole();
+	Game::instance().runConsole();
 
 	//load and init map 
 	initMap("levels/level1.txt");

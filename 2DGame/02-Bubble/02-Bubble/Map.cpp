@@ -33,12 +33,13 @@ ivec2 Map::getMapTotalSize() {
 
 
 void Map::add(Object* object, ivec2 position) {
-	grid[position.x * mapSize.x + position.y].push(object);
+	cout << position.x << " " << position.y << " " << mapSize.x << " " << mapSize.y << endl;
+	grid[position.y * mapSize.x + position.x].push(object);
 }
 
 
 void Map::remove(Object* object, ivec2 position) {
-	queue<Object*> & q = grid[position.x*mapSize.x + position.y] ;
+	queue<Object*> & q = grid[position.y*mapSize.x + position.x] ;
 	int n = q.size();
 	for (int i = 0; i < n; i++) {
 		Object* objectAux = q.front();
@@ -66,7 +67,7 @@ bool Map::move(Object* object, ivec2 pos1, ivec2 pos2) {
 
 // true if can push objects in grid position 'pos' in direction 'dir'
 bool Map::pushObjects(ivec2 pos, ivec2 dir) {
-	queue<Object*> & q = grid[pos.x * mapSize.x + pos.y];
+	queue<Object*> & q = grid[pos.y * mapSize.x + pos.x];
 
 	bool canPush = true;
 	for (int i = 0; i < q.size(); i++) {
@@ -86,7 +87,7 @@ bool Map::isValidPosition(ivec2 pos) {
 
 //temporal, cambiar
 bool Map::isBlocked(ivec2 pos) {
-	queue<Object*> & q = grid[pos.x * mapSize.x + pos.y];
+	queue<Object*> & q = grid[pos.y * mapSize.x + pos.x];
 	 
 	bool isBlocked = false;
 	for (int i = 0; i < q.size(); i++) {
@@ -106,7 +107,7 @@ bool Map::canMove(ivec2 pos, ivec2 dir) {
 
 
 Object* Map::getWord(int x, int y) {
-	queue<Object*>& q = grid[x * mapSize.x + y];
+	queue<Object*>& q = grid[y * mapSize.x + x];
 	Object* word = NULL;
 	for (int i = 0; i < q.size(); i++) {
 		Object* object = q.front();
@@ -153,7 +154,7 @@ void Map::applyRule(Object* w1, Object* w2, Object* w3) {
 void Map::addProperty(ObjectName itemName, ObjectName propertyName) {
 	for (int x = 0; x < mapSize.x; x++) {
 		for (int y = 0; y < mapSize.y; y++) {
-			queue<Object*>& q = grid[x * mapSize.x + y];
+			queue<Object*>& q = grid[y * mapSize.x + x];
 			for (int z = 0; z < q.size(); z++) {
 				Object* object = q.front();
 				
@@ -171,7 +172,7 @@ void Map::addProperty(ObjectName itemName, ObjectName propertyName) {
 void Map::transformItems(ObjectName name1, ObjectName name2) {
 	for (int x = 0; x < mapSize.x; x++) {
 		for (int y = 0; y < mapSize.y; y++) {
-			queue<Object*>& q = grid[x * mapSize.x + y];
+			queue<Object*>& q = grid[y * mapSize.x + x];
 			for (int z = 0; z < q.size(); z++) {
 				Object* object = q.front();
 
@@ -190,7 +191,7 @@ void Map::transformItems(ObjectName name1, ObjectName name2) {
 void Map::render() {
 	for (int x = 0; x < mapSize.x; x++) {
 		for (int y = 0; y < mapSize.y; y++) {
-			queue<Object*>& q = grid[x * mapSize.x + y];
+			queue<Object*>& q = grid[y * mapSize.x + x];
 			for (int z = 0; z < q.size(); z++) {
 				Object* object = q.front();
 				object->render();
