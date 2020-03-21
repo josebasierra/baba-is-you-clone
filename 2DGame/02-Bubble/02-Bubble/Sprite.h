@@ -34,6 +34,8 @@ public:
 	
 	void setPosition(const glm::vec2 &pos);
 
+	void setColor(glm::vec3 color);
+
 private:
 	Texture *texture;
 	ShaderProgram *shaderProgram;
@@ -45,6 +47,10 @@ private:
 	float timeAnimation;
 	glm::vec2 texCoordDispl;
 	vector<AnimKeyframes> animations;
+
+	bool useColor;
+	glm::vec3 color;
+
 
 };
 

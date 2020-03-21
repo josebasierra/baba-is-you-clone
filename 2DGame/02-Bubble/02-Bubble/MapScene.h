@@ -37,6 +37,8 @@ private:
 
 	Sprite* instructions;
 	Texture spritesheet2;
+
+	vec2 camera;
 };
 
 

@@ -42,7 +42,7 @@ void MapScene::init()
 	//Game::instance().runConsole();
 
 	//load and init map 
-	initMap("levels/level2.txt");
+	initMap("levels/level1.txt");
 
 	//load background
 	spritesheet.loadFromFile("images/black.png", TEXTURE_PIXEL_FORMAT_RGBA);
@@ -55,7 +55,8 @@ void MapScene::init()
 	instructions->setPosition(vec2(0.0, size.y - 50.0));
 
 	//init camera
-	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
+	camera = map->getOrigin() + map->getMapTotalSize() / 2;
+	projection = glm::ortho(camera.x - float(SCREEN_WIDTH)/2, camera.x + float(SCREEN_WIDTH)/2, camera.y + float(SCREEN_HEIGHT)/2, camera.y - float(SCREEN_HEIGHT)/2);
 
 
 	//music test

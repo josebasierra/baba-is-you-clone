@@ -6,7 +6,6 @@
 #include "Game.h"
 
 
-
 Object::Object(Map* map,  ShaderProgram& shaderProgram, ObjectType type, ObjectName name) {
 
 	this->map = map;
@@ -67,6 +66,8 @@ void Object::loadSprite() {
 	else if (this->name == ROCK && this->type == ITEM) {
 		spritesheet.loadFromFile("images/Roca.png", TEXTURE_PIXEL_FORMAT_RGBA);
 		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, shaderProgram);
+		sprite->setColor(vec3(0.564, 0.403, 0.243));
+
 		sprite->setNumberAnimations(1);
 
 		sprite->setAnimationSpeed(0, 8);
@@ -79,6 +80,7 @@ void Object::loadSprite() {
 	else if (this->name == WALL && this->type == ITEM) {
 		spritesheet.loadFromFile("images/wall.png", TEXTURE_PIXEL_FORMAT_RGBA);
 		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, shaderProgram);
+		sprite->setColor(vec3(0.450, 0.450, 0.450));
 		sprite->setNumberAnimations(1);
 
 		sprite->setAnimationSpeed(0, 8);
@@ -91,6 +93,7 @@ void Object::loadSprite() {
 	else if (this->name == FLAG && this->type == ITEM) {
 		spritesheet.loadFromFile("images/flag.png", TEXTURE_PIXEL_FORMAT_RGBA);
 		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, shaderProgram);
+		sprite->setColor(vec3(0.929, 0.886, 0.521));
 		sprite->setNumberAnimations(1);
 
 		sprite->setAnimationSpeed(0, 8);
@@ -103,6 +106,8 @@ void Object::loadSprite() {
 	else if (this->name == BABA && this->type == NOUN) {
 		spritesheet.loadFromFile("images/baba_text.png", TEXTURE_PIXEL_FORMAT_RGBA);
 		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, shaderProgram);
+		sprite->setColor(vec3(0.850, 0.223, 0.415));
+
 		sprite->setNumberAnimations(1);
 
 		sprite->setAnimationSpeed(0, 8);
@@ -127,6 +132,7 @@ void Object::loadSprite() {
 	else if (this->name == YOU && this->type == PROPERTY) {
 		spritesheet.loadFromFile("images/you.png", TEXTURE_PIXEL_FORMAT_RGBA);
 		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, shaderProgram);
+		sprite->setColor(vec3(0.850, 0.223, 0.415));
 		sprite->setNumberAnimations(1);
 
 		sprite->setAnimationSpeed(0, 8);
@@ -139,6 +145,9 @@ void Object::loadSprite() {
 	else if (this->name == FLAG && this->type == NOUN) {
 		spritesheet.loadFromFile("images/flag_text.png", TEXTURE_PIXEL_FORMAT_RGBA);
 		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, shaderProgram);
+		sprite->setColor(vec3(0.929, 0.886, 0.521));
+		
+
 		sprite->setNumberAnimations(1);
 
 		sprite->setAnimationSpeed(0, 8);
@@ -151,6 +160,7 @@ void Object::loadSprite() {
 	else if (this->name == WIN && this->type == PROPERTY) {
 		spritesheet.loadFromFile("images/win.png", TEXTURE_PIXEL_FORMAT_RGBA);
 		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, shaderProgram);
+		sprite->setColor(vec3(0.929, 0.886, 0.521));
 		sprite->setNumberAnimations(1);
 
 		sprite->setAnimationSpeed(0, 8);
@@ -163,6 +173,7 @@ void Object::loadSprite() {
 	else if (this->name == WALL && this->type == NOUN) {
 		spritesheet.loadFromFile("images/wall_text.png", TEXTURE_PIXEL_FORMAT_RGBA);
 		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, shaderProgram);
+		sprite->setColor(vec3(0.450, 0.450, 0.450));
 		sprite->setNumberAnimations(1);
 
 		sprite->setAnimationSpeed(0, 8);
@@ -175,6 +186,7 @@ void Object::loadSprite() {
 	else if (this->name == STOP && this->type == PROPERTY) {
 		spritesheet.loadFromFile("images/stop.png", TEXTURE_PIXEL_FORMAT_RGBA);
 		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, shaderProgram);
+		sprite->setColor(vec3(0.1, 0.550, 0.1));
 		sprite->setNumberAnimations(1);
 
 		sprite->setAnimationSpeed(0, 8);
@@ -187,6 +199,7 @@ void Object::loadSprite() {
 	else if (this->name == ROCK && this->type == NOUN) {
 		spritesheet.loadFromFile("images/rock_text.png", TEXTURE_PIXEL_FORMAT_RGBA);
 		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, shaderProgram);
+		sprite->setColor(vec3(0.564, 0.403, 0.243));
 		sprite->setNumberAnimations(1);
 
 		sprite->setAnimationSpeed(0, 8);
@@ -199,6 +212,7 @@ void Object::loadSprite() {
 	else if (this->name == PUSH && this->type == PROPERTY) {
 		spritesheet.loadFromFile("images/push.png", TEXTURE_PIXEL_FORMAT_RGBA);
 		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, shaderProgram);
+		sprite->setColor(vec3(0.664, 0.403, 0.243));
 		sprite->setNumberAnimations(1);
 
 		sprite->setAnimationSpeed(0, 8);
@@ -211,7 +225,10 @@ void Object::loadSprite() {
 	else if (this->name == SKULL && this->type == ITEM) {
 		spritesheet.loadFromFile("images/skull.png", TEXTURE_PIXEL_FORMAT_RGBA);
 		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, shaderProgram);
+		sprite->setColor(vec3(0.509, 0.149, 0.109));
 		sprite->setNumberAnimations(1);
+		
+
 
 		sprite->setAnimationSpeed(0, 8);
 		sprite->addKeyframe(0, glm::vec2(0.f, 1.f / 3.0f));
@@ -223,6 +240,7 @@ void Object::loadSprite() {
 	else if (this->name == SKULL && this->type == NOUN) {
 		spritesheet.loadFromFile("images/skull_text.png", TEXTURE_PIXEL_FORMAT_RGBA);
 		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, shaderProgram);
+		sprite->setColor(vec3(0.509, 0.149, 0.109));
 		sprite->setNumberAnimations(1);
 
 		sprite->setAnimationSpeed(0, 8);
@@ -235,6 +253,7 @@ void Object::loadSprite() {
 	else if (this->name == DEFEAT && this->type == PROPERTY) {
 		spritesheet.loadFromFile("images/defeat.png", TEXTURE_PIXEL_FORMAT_RGBA);
 		sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0, 1.0 / 3.0), &spritesheet, shaderProgram);
+		sprite->setColor(vec3(0.509, 0.149, 0.109));
 		sprite->setNumberAnimations(1);
 
 		sprite->setAnimationSpeed(0, 8);
