@@ -34,6 +34,9 @@ private:
 	vector<Object*> objects;
 	float currentTime;
 	float currentTurnTime;
+
+	Sprite* instructions;
+	Texture spritesheet2;
 };
 
 

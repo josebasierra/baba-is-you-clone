@@ -42,12 +42,17 @@ void MapScene::init()
 	//Game::instance().runConsole();
 
 	//load and init map 
-	initMap("levels/level1.txt");
+	initMap("levels/level2.txt");
 
 	//load background
 	spritesheet.loadFromFile("images/black.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	background = Sprite::createSprite(map->getMapTotalSize(), glm::vec2(1.f, 1.f), &spritesheet, &texProgram);
 	background->setPosition(map->getOrigin());
+
+	spritesheet2.loadFromFile("images/instructions_image.png", TEXTURE_PIXEL_FORMAT_RGBA);
+	instructions = Sprite::createSprite(vec2(100.0, 66.7), glm::vec2(1.f, 1.f), &spritesheet2, &texProgram);
+	vec2 size = map->getMapTotalSize();
+	instructions->setPosition(vec2(0.0, size.y - 50.0));
 
 	//init camera
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
@@ -110,6 +115,7 @@ void MapScene::render()
 	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
 
 	background->render();
+	instructions->render();
 	map->render();
 }
 
