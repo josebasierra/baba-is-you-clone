@@ -9,11 +9,8 @@
 #include <sstream>
 #include <vector>
 
-#include <windows.h>
-#include <mmsystem.h>
 #include <irrKlang.h>
 using namespace irrklang;
-#pragma comment(lib, "irrKlang.lib") 
 
 #define SCREEN_X 32
 #define SCREEN_Y 16
@@ -42,7 +39,7 @@ void MapScene::init()
 {
 	BaseScene::init();
 
-	Game::instance().runConsole();
+	//Game::instance().runConsole();
 
 	//load and init map 
 	initMap("levels/level1.txt");

@@ -4,6 +4,7 @@
 
 
 #include "MapScene.h"
+#include "MenuScene.h"
 
 
 #define SCREEN_WIDTH 1280

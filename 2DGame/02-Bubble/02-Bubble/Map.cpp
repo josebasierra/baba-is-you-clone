@@ -33,7 +33,6 @@ ivec2 Map::getMapTotalSize() {
 
 
 void Map::add(Object* object, ivec2 position) {
-	cout << position.x << " " << position.y << " " << mapSize.x << " " << mapSize.y << endl;
 	grid[position.y * mapSize.x + position.x].push(object);
 }
 
