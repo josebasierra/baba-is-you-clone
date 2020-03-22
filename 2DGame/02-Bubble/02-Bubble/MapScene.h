@@ -39,6 +39,7 @@ private:
 	Texture spritesheet2;
 
 	vec2 camera;
+
 };
 
 

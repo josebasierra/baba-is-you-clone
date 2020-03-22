@@ -12,6 +12,8 @@
 #include <irrKlang.h>
 using namespace irrklang;
 
+ISoundEngine* engine = createIrrKlangDevice();
+
 #define SCREEN_X 32
 #define SCREEN_Y 16
 
@@ -42,7 +44,7 @@ void MapScene::init()
 	//Game::instance().runConsole();
 
 	//load and init map 
-	initMap("levels/level1.txt");
+	initMap("levels/level2.txt");
 
 	//load background
 	spritesheet.loadFromFile("images/black.png", TEXTURE_PIXEL_FORMAT_RGBA);
@@ -52,7 +54,7 @@ void MapScene::init()
 	spritesheet2.loadFromFile("images/instructions_image.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	instructions = Sprite::createSprite(vec2(100.0, 66.7), glm::vec2(1.f, 1.f), &spritesheet2, &texProgram);
 	vec2 size = map->getMapTotalSize();
-	instructions->setPosition(vec2(0.0, size.y - 50.0));
+	instructions->setPosition(vec2(40.0, 20.0));
 
 	//init camera
 	camera = map->getOrigin() + map->getMapTotalSize() / 2;
@@ -60,7 +62,6 @@ void MapScene::init()
 
 
 	//music test
-	ISoundEngine* engine = createIrrKlangDevice();
 	if (!engine)
 		std::cout << "error";
 	engine->play2D("music/baba_is_you_ost.wav", true);
@@ -97,10 +98,9 @@ void MapScene::update(int deltaTime)
 		map->applyAllRules();
 
 		currentTurnTime = 0;
+		
+		engine->play2D("music/Baba_move.mp3", false);
 	}
-
-
-	
 }
 
 

@@ -6,7 +6,6 @@
 #include <GL/glew.h>
 #include <GL/glut.h>
 
-
 void BaseScene::init() {
 	initShaders();
 }

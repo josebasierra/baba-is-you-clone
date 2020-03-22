@@ -18,6 +18,11 @@ public:
 	void loadSprites();
 
 private:
-	vector<Sprite*> options;
+	struct Option {
+		Sprite* sprite;
+		Texture spritesheet;
+	};
+	
+	Option* options = new Option[7]; 
 };
 
