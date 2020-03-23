@@ -30,25 +30,11 @@ void MenuScene::loadSprites() {
 	options[1].sprite->setPosition(vec2(float(SCREEN_WIDTH - 150), float(SCREEN_HEIGHT - 50)));
 
 	//pasarlo a bucle...
-	options[2].spritesheet.loadFromFile("images/level_image1.png", TEXTURE_PIXEL_FORMAT_RGBA);
-	options[2].sprite = Sprite::createSprite(glm::ivec2(194, 151), glm::vec2(1.f, 1.f), &options[2].spritesheet, &texProgram);
-	options[2].sprite->setPosition(vec2(51.6, 337));
-		
-	options[3].spritesheet.loadFromFile("images/level_image2.png", TEXTURE_PIXEL_FORMAT_RGBA);
-	options[3].sprite = Sprite::createSprite(glm::ivec2(194, 151), glm::vec2(1.f, 1.f), &options[3].spritesheet, &texProgram);
-	options[3].sprite->setPosition(vec2(297.2, 337));
-	
-	options[4].spritesheet.loadFromFile("images/level_image3.png", TEXTURE_PIXEL_FORMAT_RGBA);
-	options[4].sprite = Sprite::createSprite(glm::ivec2(194, 151), glm::vec2(1.f, 1.f), &options[4].spritesheet, &texProgram);
-	options[4].sprite->setPosition(vec2(542.8, 337));
-	
-	options[5].spritesheet.loadFromFile("images/level_image4.png", TEXTURE_PIXEL_FORMAT_RGBA);
-	options[5].sprite = Sprite::createSprite(glm::ivec2(194, 151), glm::vec2(1.f, 1.f), &options[5].spritesheet, &texProgram);
-	options[5].sprite->setPosition(vec2(785.4, 337));
-	
-	options[6].spritesheet.loadFromFile("images/level_image5.png", TEXTURE_PIXEL_FORMAT_RGBA);
-	options[6].sprite = Sprite::createSprite(glm::ivec2(194, 151), glm::vec2(1.f, 1.f), &options[6].spritesheet, &texProgram);
-	options[6].sprite->setPosition(vec2(1028, 337));
+	for (int i = 2; i <= 6; ++i) {
+		options[i].spritesheet.loadFromFile("images/level_image" + to_string(i - 1) + ".png", TEXTURE_PIXEL_FORMAT_RGBA);
+		options[i].sprite = Sprite::createSprite(glm::ivec2(194, 151), glm::vec2(1.f, 1.f), &options[i].spritesheet, &texProgram);
+		options[i].sprite->setPosition(vec2(51.6+((i-2)*245.6), 337));
+	}
 }
 
 void MenuScene::update(int deltaTime) {
