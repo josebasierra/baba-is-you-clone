@@ -22,12 +22,12 @@ void MenuScene::init() {
 void MenuScene::loadSprites() {
 	
 	options[0].spritesheet.loadFromFile("images/Instructions.png", TEXTURE_PIXEL_FORMAT_RGBA);
-	options[0].sprite = Sprite::createSprite(glm::ivec2(180, 40), glm::vec2(1.f , 1.f), &options[0].spritesheet, &texProgram);
-	options[0].sprite->setPosition(vec2(float(SCREEN_WIDTH - 350), float(SCREEN_HEIGHT - 50)));
+	options[0].sprite = Sprite::createSprite(glm::ivec2(270, 60), glm::vec2(1.f , 1.f), &options[0].spritesheet, &texProgram);
+	options[0].sprite->setPosition(vec2(float(SCREEN_WIDTH - 500), float(SCREEN_HEIGHT - 60)));
 
 	options[1].spritesheet.loadFromFile("images/Credits.png", TEXTURE_PIXEL_FORMAT_RGBA);
-	options[1].sprite = Sprite::createSprite(glm::ivec2(100, 40), glm::vec2(1.f, 1.f), &options[1].spritesheet, &texProgram);
-	options[1].sprite->setPosition(vec2(float(SCREEN_WIDTH - 150), float(SCREEN_HEIGHT - 50)));
+	options[1].sprite = Sprite::createSprite(glm::ivec2(150, 60), glm::vec2(1.f, 1.f), &options[1].spritesheet, &texProgram);
+	options[1].sprite->setPosition(vec2(float(SCREEN_WIDTH - 200), float(SCREEN_HEIGHT - 60)));
 
 	//pasarlo a bucle...
 	for (int i = 2; i <= 6; ++i) {
