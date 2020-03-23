@@ -251,8 +251,3 @@ bool MapScene::initMap(const string& levelFile) {
 	map->applyAllRules();
 	return true;
 }
-
-
-
-
-
