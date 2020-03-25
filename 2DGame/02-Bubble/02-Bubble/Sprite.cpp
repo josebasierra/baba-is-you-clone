@@ -122,7 +122,7 @@ void Sprite::setColor(glm::vec3 color) {
 void Sprite::select() { //lo hacemos grande, por ahora	
 
 	glm::mat4 modelview = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 0.f));
-	modelview = glm::scale(modelview, glm::vec3(1.5f, 1.5f, 0.f));
+	modelview = glm::scale(modelview, glm::vec3(1.35f, 1.35f, 0.f));
 	shaderProgram->setUniformMatrix4f("modelview", modelview);
 	shaderProgram->setUniform2f("texCoordDispl", texCoordDispl.x, texCoordDispl.y);
 

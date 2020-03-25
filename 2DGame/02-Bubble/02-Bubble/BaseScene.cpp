@@ -6,6 +6,10 @@
 #include <GL/glew.h>
 #include <GL/glut.h>
 
+void BaseScene::init(int level) {
+	//no implementada en BaseScene
+}
+
 void BaseScene::init() {
 	initShaders();
 }
@@ -17,7 +21,6 @@ void BaseScene::update(int deltaTime) {
 void BaseScene::render() {
 
 }
-
 
 void BaseScene::initShaders()
 {

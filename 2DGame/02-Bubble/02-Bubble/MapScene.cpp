@@ -36,15 +36,15 @@ MapScene::~MapScene()
 		delete map;
 }
 
-
-void MapScene::init()
+void MapScene::init(int level)
 {
 	BaseScene::init();
 
 	//Game::instance().runConsole();
 
 	//load and init map 
-	initMap("levels/level1.txt");
+	initMap("levels/level"+ to_string(level) +".txt");
+	this->level = level;
 
 	//load background
 	spritesheet.loadFromFile("images/black.png", TEXTURE_PIXEL_FORMAT_RGBA);

@@ -15,6 +15,7 @@ void MenuScene::init() {
 	projection = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
 	
 	loadSprites();
+	
 	option = 0; //mapa 1 seleccionado al inicio
 	
 	//musica para menu...
@@ -50,7 +51,7 @@ void MenuScene::update(int deltaTime) {
 		else option == 6;
 	}
 
-	if (Game::instance().getSpecialKey(GLUT_KEY_INSERT)) {
+	if (Game::instance().getKey(GLUT_KEY_ENTER)) {
 		Game::instance().changeScene(option+1);
 	}
 }

@@ -27,8 +27,8 @@ void Game::render()
 
 void Game::keyPressed(int key)
 {
-	if(key == 27) // Escape code
-		bPlay = false;
+	/*if(key == 27) // Escape code
+		bPlay = false;*/
 	keys[key] = true;
 }
 
@@ -78,8 +78,21 @@ bool Game::movementKeyPressed() {
 }
 
 void Game::changeScene(int id) {
-	scene = new MapScene();
-	scene->init();
+	if ((id - 1) < 5) {
+		scene = new MapScene();
+		scene->init(id);
+	}
+	else if ((id - 1) == 5) {
+		//instructions
+	}
+	else if ((id - 1) == 6) {
+		scene = new creditsScene();
+		scene->init(); 
+	}
+	else {
+		scene = new MenuScene();
+		scene->init();
+	}
 }
 
 void Game::runConsole() {

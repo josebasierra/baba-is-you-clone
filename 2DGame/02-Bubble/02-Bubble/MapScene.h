@@ -15,14 +15,14 @@
 // It is responsible for updating and render them.
 
 
-class MapScene:public BaseScene
+class MapScene: public BaseScene
 {
 
 public:
 	MapScene();
 	~MapScene();
 
-	void init();
+	void init(int level);
 	void update(int deltaTime);
 	void render();
 
@@ -34,6 +34,8 @@ private:
 	vector<Object*> objects;
 	float currentTime;
 	float currentTurnTime;
+
+	int level; //level actual, para saber cual es el siguiente
 
 	vec2 camera;
 

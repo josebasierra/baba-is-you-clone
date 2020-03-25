@@ -154,6 +154,8 @@
 #define  GLUT_KEY_HOME                      0x006A
 #define  GLUT_KEY_END                       0x006B
 #define  GLUT_KEY_INSERT                    0x006C
+#define  GLUT_KEY_ENTER                     0x000D
+#define  GLUT_KEY_ESC                       0x001B
 
 /*
  * GLUT API macro definitions -- mouse state definitions
