@@ -7,8 +7,8 @@ void Game::init()
 {
 	bPlay = true;
 	glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
-	scene = new MapScene();
-	//scene = new MenuScene();
+	//scene = new MapScene();
+	scene = new MenuScene();
 	scene->init();
 }
 
@@ -77,8 +77,9 @@ bool Game::movementKeyPressed() {
 		Game::instance().getSpecialKey(GLUT_KEY_DOWN);
 }
 
-void Game::changeScene(SceneId id) {
-
+void Game::changeScene(int id) {
+	scene = new MapScene();
+	scene->init();
 }
 
 void Game::runConsole() {

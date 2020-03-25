@@ -35,6 +35,7 @@ public:
 	void setPosition(const glm::vec2 &pos);
 
 	void setColor(glm::vec3 color);
+	void select();
 
 private:
 	Texture *texture;

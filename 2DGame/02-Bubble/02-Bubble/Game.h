@@ -46,7 +46,7 @@ public:
 
 	bool movementKeyPressed();
 
-	void changeScene(SceneId id);
+	void changeScene(int id);
 	void runConsole();
 
 private:

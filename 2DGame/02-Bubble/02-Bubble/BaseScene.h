@@ -2,7 +2,6 @@
 #include <glm/glm.hpp>
 #include "ShaderProgram.h"
 #include "Sprite.h"
-#include "SceneEnums.h"
 
 
 

@@ -119,5 +119,24 @@ void Sprite::setColor(glm::vec3 color) {
 	this->color = color;
 }
 
+void Sprite::select() { //lo hacemos grande, por ahora	
+
+	glm::mat4 modelview = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 0.f));
+	modelview = glm::scale(modelview, glm::vec3(1.5f, 1.5f, 0.f));
+	shaderProgram->setUniformMatrix4f("modelview", modelview);
+	shaderProgram->setUniform2f("texCoordDispl", texCoordDispl.x, texCoordDispl.y);
+
+	shaderProgram->setUniform2f("useColor", useColor, useColor);
+	shaderProgram->setUniform4f("color", color.x, color.y, color.z, 1.f);
+
+	glEnable(GL_TEXTURE_2D);
+	texture->use();
+	glBindVertexArray(vao);
+	glEnableVertexAttribArray(posLocation);
+	glEnableVertexAttribArray(texCoordLocation);
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+	glDisable(GL_TEXTURE_2D);
+}
+
 
 

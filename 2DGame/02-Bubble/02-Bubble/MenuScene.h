@@ -24,5 +24,7 @@ private:
 	};
 	
 	Option* options = new Option[7]; 
+	int option; //opcion seleccionada
+	float currentTime;
 };
 

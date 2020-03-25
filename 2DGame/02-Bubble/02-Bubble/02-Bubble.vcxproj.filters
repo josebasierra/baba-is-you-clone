@@ -54,9 +54,6 @@
     <ClInclude Include="MapScene.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="SceneEnums.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="MenuScene.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
