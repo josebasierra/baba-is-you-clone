@@ -49,12 +49,14 @@ void MenuScene::update(int deltaTime) {
 	if (currentTurnTime >= float(TURN_TIME)) {
 		if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT)) {
 			if (option < 6) ++option;
+			currentTurnTime = 0;
 		}
 
 		if (Game::instance().getSpecialKey(GLUT_KEY_LEFT)) {
 			if (option > 0) --option;
+			currentTurnTime = 0;
 		}
-		currentTurnTime = 0;
+		
 	}
 	
 	if (Game::instance().getKey(GLUT_KEY_ENTER)) {

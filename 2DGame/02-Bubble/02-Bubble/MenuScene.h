@@ -23,7 +23,7 @@ private:
 		Texture spritesheet;
 	};
 	
-	Option* options = new Option[7]; 
+	Option options[7]; 
 	int option; //opcion seleccionada
 	float currentTime;
 	float currentTurnTime;
