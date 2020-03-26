@@ -27,9 +27,11 @@ void Game::render()
 
 void Game::keyPressed(int key)
 {
-	/*if(key == 27) // Escape code
-		bPlay = false;*/
 	keys[key] = true;
+}
+
+void Game::exit() {
+	bPlay = false;
 }
 
 void Game::keyReleased(int key)
@@ -83,7 +85,8 @@ void Game::changeScene(int id) {
 		scene->init(id);
 	}
 	else if ((id - 1) == 5) {
-		//instructions
+		scene = new InstructionsScene();
+		scene->init();
 	}
 	else if ((id - 1) == 6) {
 		scene = new creditsScene();

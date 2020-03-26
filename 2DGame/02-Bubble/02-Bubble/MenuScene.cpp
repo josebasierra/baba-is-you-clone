@@ -1,7 +1,11 @@
 #include "MenuScene.h"
 
+#define TURN_TIME 120
 
-MenuScene::MenuScene() {}
+MenuScene::MenuScene() {
+	currentTime = 0.0f;
+	currentTurnTime = 0.0f;
+}
 
 MenuScene:: ~MenuScene() {}
 
@@ -41,18 +45,24 @@ void MenuScene::loadSprites() {
 void MenuScene::update(int deltaTime) {
 	currentTime += deltaTime;
 	
-	if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT)) {
-		if (option < 6) ++option;
-		else option == 0;
-	}
+	currentTurnTime += deltaTime;
+	if (currentTurnTime >= float(TURN_TIME)) {
+		if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT)) {
+			if (option < 6) ++option;
+		}
 
-	if (Game::instance().getSpecialKey(GLUT_KEY_LEFT)) {
-		if (option > 0) --option;
-		else option == 6;
+		if (Game::instance().getSpecialKey(GLUT_KEY_LEFT)) {
+			if (option > 0) --option;
+		}
+		currentTurnTime = 0;
 	}
-
+	
 	if (Game::instance().getKey(GLUT_KEY_ENTER)) {
 		Game::instance().changeScene(option+1);
+	}
+
+	if (Game::instance().getKey(GLUT_KEY_ESC)) {
+		Game::instance().exit();
 	}
 }
 

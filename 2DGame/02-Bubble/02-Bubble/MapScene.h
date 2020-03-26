@@ -9,6 +9,9 @@
 #include "Player.h"
 #include <vector>
 #include "Object.h"
+#include <irrKlang.h>
+#include <ik_ISoundEngine.h>
+using namespace irrklang;
 
 
 // Scene contains all the entities of our game.
@@ -38,6 +41,8 @@ private:
 	int level; //level actual, para saber cual es el siguiente
 
 	vec2 camera;
+
+	irrklang::ISoundEngine* engine; //para la musica del juego
 
 };
 

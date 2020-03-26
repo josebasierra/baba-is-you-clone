@@ -9,10 +9,6 @@
 #include <sstream>
 #include <vector>
 
-#include <irrKlang.h>
-using namespace irrklang;
-
-ISoundEngine* engine = createIrrKlangDevice();
 
 #define SCREEN_X 32
 #define SCREEN_Y 16
@@ -28,6 +24,7 @@ MapScene::MapScene()
 	map = NULL;
 	currentTime = 0.0f;
 	currentTurnTime = 0.0f;
+	engine = createIrrKlangDevice();
 }
 
 MapScene::~MapScene()
@@ -95,6 +92,11 @@ void MapScene::update(int deltaTime)
 		currentTurnTime = 0;
 		
 		engine->play2D("music/Baba_move.mp3", false);
+	}
+
+	if (Game::instance().getKey(GLUT_KEY_ESC)) {
+		Game::instance().changeScene(8); //cambio a MenuScene
+		engine->drop();
 	}
 }
 

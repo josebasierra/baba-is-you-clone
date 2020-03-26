@@ -3,7 +3,23 @@
 
 class InstructionsScene : public BaseScene
 {
+public:
+	InstructionsScene();
+	~InstructionsScene();
 
-	//todo el rollo para poner las instrucciones
+	void init();
+	void update(int deltaTime);
+	void render();
+
+private:
+	struct Window {
+		Sprite* sprite;
+		Texture spritesheet;
+	};
+
+	Window* windows = new Window[3];
+	int window; //para la pagina en la que me encuentro
+	float currentTime;
+	float currentTurnTime;
 };
 

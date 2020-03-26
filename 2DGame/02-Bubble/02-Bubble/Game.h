@@ -6,6 +6,7 @@
 #include "MapScene.h"
 #include "MenuScene.h"
 #include "CreditsScene.h"
+#include "InstructionsScene.h"
 
 
 #define SCREEN_WIDTH 1280
@@ -41,6 +42,7 @@ public:
 	void mouseMove(int x, int y);
 	void mousePress(int button);
 	void mouseRelease(int button);
+	void exit();
 	
 	bool getKey(int key) const;
 	bool getSpecialKey(int key) const;
