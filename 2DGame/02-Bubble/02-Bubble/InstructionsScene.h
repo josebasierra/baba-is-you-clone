@@ -18,7 +18,6 @@ private:
 		Texture spritesheet;
 	};
 
-	Window* windows = new Window[3];
 	int window; //para la pagina en la que me encuentro
 	float currentTime;
 	float currentTurnTime;

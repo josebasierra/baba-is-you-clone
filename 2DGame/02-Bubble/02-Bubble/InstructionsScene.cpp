@@ -14,12 +14,6 @@ InstructionsScene:: ~InstructionsScene(){}
 void InstructionsScene::init() {
 	BaseScene::init();
 
-	/*for (int i = 0; i < 3; ++i) {
-		windows[i].spritesheet.loadFromFile("images/instructions" + to_string(window + 1) + ".png", TEXTURE_PIXEL_FORMAT_RGBA);
-		windows[i].sprite = Sprite::createSprite(glm::ivec2(1280.0, 720.0), glm::vec2(1.f, 1.f), &windows[i].spritesheet, &texProgram);
-		windows[i].sprite->setPosition(vec2(0.0,0.0));
-	}*/
-
 	spritesheet.loadFromFile("images/instructions1.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	background = Sprite::createSprite(vec2(1280.0, 720.0), glm::vec2(1.f, 1.f), &spritesheet, &texProgram);
 	background->setPosition(vec2(0.0, 0.0));
