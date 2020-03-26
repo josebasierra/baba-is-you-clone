@@ -25,7 +25,6 @@ private:
 	
 	Option options[7]; 
 	int option; //opcion seleccionada
-	float currentTime;
-	float currentTurnTime;
+
 };
 

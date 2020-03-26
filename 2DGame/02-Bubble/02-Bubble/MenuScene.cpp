@@ -1,6 +1,5 @@
 #include "MenuScene.h"
 
-#define TURN_TIME 120
 
 MenuScene::MenuScene() {
 	currentTime = 0.0f;
@@ -22,7 +21,10 @@ void MenuScene::init() {
 	
 	option = 0; //mapa 1 seleccionado al inicio
 	
-	//musica para menu...
+	//play background music
+	if (!engine)
+		std::cout << "error";
+	engine->play2D("music/baba_is_you_ost.wav", true);
 }
 
 void MenuScene::loadSprites() {
@@ -44,15 +46,15 @@ void MenuScene::loadSprites() {
 
 void MenuScene::update(int deltaTime) {
 	currentTime += deltaTime;
-	
 	currentTurnTime += deltaTime;
+
 	if (currentTurnTime >= float(TURN_TIME)) {
 		if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT)) {
 			if (option < 6) ++option;
 			currentTurnTime = 0;
 		}
 
-		if (Game::instance().getSpecialKey(GLUT_KEY_LEFT)) {
+		else if (Game::instance().getSpecialKey(GLUT_KEY_LEFT)) {
 			if (option > 0) --option;
 			currentTurnTime = 0;
 		}
@@ -63,7 +65,7 @@ void MenuScene::update(int deltaTime) {
 		Game::instance().changeScene(option+1);
 	}
 
-	if (Game::instance().getKey(GLUT_KEY_ESC)) {
+	else if (Game::instance().getKey(GLUT_KEY_ESC)) {
 		Game::instance().exit();
 	}
 }

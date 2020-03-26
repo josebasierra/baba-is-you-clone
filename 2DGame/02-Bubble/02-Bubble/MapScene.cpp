@@ -16,15 +16,10 @@
 #define INIT_PLAYER_X_TILES 4
 #define INIT_PLAYER_Y_TILES 25
 
-#define TURN_TIME 200
-
 
 MapScene::MapScene()
 {
 	map = NULL;
-	currentTime = 0.0f;
-	currentTurnTime = 0.0f;
-	engine = createIrrKlangDevice();
 }
 
 MapScene::~MapScene()
@@ -41,7 +36,7 @@ void MapScene::init(int level)
 
 	//load and init map 
 	initMap("levels/level"+ to_string(level) +".txt");
-	this->level = level;
+	this->currentLevel = level;
 
 	//load background
 	spritesheet.loadFromFile("images/black.png", TEXTURE_PIXEL_FORMAT_RGBA);
@@ -53,7 +48,7 @@ void MapScene::init(int level)
 	projection = glm::ortho(camera.x - float(SCREEN_WIDTH)/2, camera.x + float(SCREEN_WIDTH)/2, camera.y + float(SCREEN_HEIGHT)/2, camera.y - float(SCREEN_HEIGHT)/2);
 
 
-	//music test
+	//play background music
 	if (!engine)
 		std::cout << "error";
 	engine->play2D("music/baba_is_you_ost.wav", true);

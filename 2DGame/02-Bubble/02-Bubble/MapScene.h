@@ -9,9 +9,7 @@
 #include "Player.h"
 #include <vector>
 #include "Object.h"
-#include <irrKlang.h>
-#include <ik_ISoundEngine.h>
-using namespace irrklang;
+
 
 
 // Scene contains all the entities of our game.
@@ -35,15 +33,9 @@ private:
 private:
 	Map *map;
 	vector<Object*> objects;
-	float currentTime;
-	float currentTurnTime;
 
-	int level; //level actual, para saber cual es el siguiente
-
+	int currentLevel; 
 	vec2 camera;
-
-	irrklang::ISoundEngine* engine; //para la musica del juego
-
 };
 
 

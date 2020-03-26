@@ -12,6 +12,9 @@ void BaseScene::init(int level) {
 
 void BaseScene::init() {
 	initShaders();
+	currentTime = 0.0f;
+	currentTurnTime = 0.0f;
+	engine = createIrrKlangDevice();
 }
 
 void BaseScene::update(int deltaTime) {
