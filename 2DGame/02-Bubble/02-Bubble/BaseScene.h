@@ -17,6 +17,9 @@ class BaseScene
 {
 
 public:
+
+	~BaseScene();
+
 	void virtual init();
 	void virtual init(int level);
 	void virtual update(int deltaTime);

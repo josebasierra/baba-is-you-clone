@@ -89,9 +89,8 @@ void MapScene::update(int deltaTime)
 		engine->play2D("music/Baba_move.mp3", false);
 	}
 
-	if (Game::instance().getKey(GLUT_KEY_ESC)) {
+	if (Game::instance().getKey(GLUT_KEY_ESC) && currentTurnTime >= float(TURN_TIME)) {
 		Game::instance().changeScene(8); //cambio a MenuScene
-		engine->drop();
 	}
 }
 

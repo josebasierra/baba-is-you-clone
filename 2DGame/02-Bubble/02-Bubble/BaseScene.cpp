@@ -6,6 +6,12 @@
 #include <GL/glew.h>
 #include <GL/glut.h>
 
+
+BaseScene::~BaseScene()
+{
+	engine->drop();
+}
+
 void BaseScene::init(int level) {
 	//no implementada en BaseScene
 }

@@ -80,6 +80,8 @@ bool Game::movementKeyPressed() {
 }
 
 void Game::changeScene(int id) {
+
+	delete scene;
 	if ((id - 1) < 5) {
 		scene = new MapScene();
 		scene->init(id);

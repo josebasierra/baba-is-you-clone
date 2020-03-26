@@ -1,11 +1,7 @@
 #include "MenuScene.h"
 
 
-MenuScene::MenuScene() {
-	currentTime = 0.0f;
-	currentTurnTime = 0.0f;
-}
-
+MenuScene::MenuScene() {}
 MenuScene:: ~MenuScene() {}
 
 void MenuScene::init() {
@@ -58,16 +54,18 @@ void MenuScene::update(int deltaTime) {
 			if (option > 0) --option;
 			currentTurnTime = 0;
 		}
+
+		else if (Game::instance().getKey(GLUT_KEY_ENTER)) {
+			Game::instance().changeScene(option + 1);
+		}
+
+		else if (Game::instance().getKey(GLUT_KEY_ESC)) {
+			Game::instance().exit();
+		}
 		
 	}
 	
-	if (Game::instance().getKey(GLUT_KEY_ENTER)) {
-		Game::instance().changeScene(option+1);
-	}
 
-	else if (Game::instance().getKey(GLUT_KEY_ESC)) {
-		Game::instance().exit();
-	}
 }
 
 void MenuScene::render() {
