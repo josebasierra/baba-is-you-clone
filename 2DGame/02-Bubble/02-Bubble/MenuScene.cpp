@@ -31,7 +31,7 @@ void MenuScene::loadSprites() {
 	
 	options[5].spritesheet.loadFromFile("images/Instructions.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	options[5].sprite = Sprite::createSprite(glm::ivec2(270, 60), glm::vec2(1.f , 1.f), &options[5].spritesheet, &texProgram);
-	options[5].sprite->setPosition(vec2(float(SCREEN_WIDTH - 500), float(SCREEN_HEIGHT - 60)));
+	options[5].sprite->setPosition(vec2(float(SCREEN_WIDTH - 525), float(SCREEN_HEIGHT - 60)));
 
 	options[6].spritesheet.loadFromFile("images/Credits.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	options[6].sprite = Sprite::createSprite(glm::ivec2(150, 60), glm::vec2(1.f, 1.f), &options[6].spritesheet, &texProgram);
