@@ -7,9 +7,12 @@ void Game::init()
 {
 	bPlay = true;
 	glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
+	engine = createIrrKlangDevice();
 	//scene = new MapScene();
 	scene = new MenuScene();
 	scene->init();
+
+
 }
 
 bool Game::update(int deltaTime)
@@ -73,24 +76,80 @@ bool Game::getSpecialKey(int key) const
 
 bool Game::movementKeyPressed() {
 	return 
-		Game::instance().getSpecialKey(GLUT_KEY_RIGHT) ||
-		Game::instance().getSpecialKey(GLUT_KEY_LEFT) ||
-		Game::instance().getSpecialKey(GLUT_KEY_UP) ||
-		Game::instance().getSpecialKey(GLUT_KEY_DOWN);
+		moveUpPressed() ||
+		moveDownPressed() ||
+		moveRightPressed() ||
+		moveLeftPressed();
 }
 
-void Game::changeScene(int id) {
+
+bool Game::resetKeyPressed() {
+	return (Game::instance().getKey(82) || Game::instance().getKey(114));
+}
+
+bool Game::moveUpPressed() {
+	return 
+		getSpecialKey(GLUT_KEY_UP) ||
+		getKey(87) ||
+		getKey(119);
+}
+
+bool Game::moveDownPressed() {
+	return
+		getSpecialKey(GLUT_KEY_DOWN) ||
+		getKey(83) ||
+		getKey(115);
+}
+
+bool Game::moveRightPressed() {
+	return
+		getSpecialKey(GLUT_KEY_RIGHT) ||
+		getKey(68) ||
+		getKey(100);
+}
+bool Game::moveLeftPressed() {
+	return
+		getSpecialKey(GLUT_KEY_LEFT) ||
+		getKey(65) ||
+		getKey(97);
+}
+
+
+void Game::loopMusic(char* fileName) {
+	//engine->removeSoundSource(fileName);
+	if (!engine->isCurrentlyPlaying(fileName)) {
+		ISound* sound = engine->play2D(fileName, true, false, true);
+		sound->setVolume(0.7f);
+	}
+		
+}
+
+
+void Game::stopMusic(char* fileName) {
+	if (engine->isCurrentlyPlaying(fileName))
+		engine->play2D(fileName, false);
+}
+
+
+void Game::playSound(char* fileName) {
+	ISound* sound = engine->play2D(fileName, false, false, true);
+	sound->setVolume(0.3f);
+}
+
+//sceneId = (1,7)
+void Game::changeScene(int sceneId) {
 
 	delete scene;
-	if ((id - 1) < 5) {
+
+	if (sceneId <= 5) {
 		scene = new MapScene();
-		scene->init(id);
+		scene->init(sceneId);
 	}
-	else if ((id - 1) == 5) {
+	else if (sceneId == 6) {
 		scene = new InstructionsScene();
 		scene->init();
 	}
-	else if ((id - 1) == 6) {
+	else if (sceneId == 7) {
 		scene = new creditsScene();
 		scene->init(); 
 	}

@@ -20,6 +20,7 @@ Object::Object(Map* map,  ShaderProgram& shaderProgram, ObjectType type, ObjectN
 
 Object:: ~Object() {
 	delete sprite;
+	map->remove(this, this->pos);
 }
 
 
@@ -319,17 +320,17 @@ void Object::refresh() {
 void Object::updateTurn() {
 	if (properties.find(IS_YOU) != properties.end()) {
 
-		if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT)) {
+		if (Game::instance().moveRightPressed()) {
 			moveTo(this->pos + ivec2(1, 0));
 		}
-		else if (Game::instance().getSpecialKey(GLUT_KEY_LEFT)) {
+		else if (Game::instance().moveLeftPressed()) {
 			moveTo(this->pos + ivec2(-1, 0));
 		}
 
-		else if (Game::instance().getSpecialKey(GLUT_KEY_UP)) {
+		else if (Game::instance().moveUpPressed()) {
 			moveTo(this->pos + ivec2(0, -1));
 		}
-		else if (Game::instance().getSpecialKey(GLUT_KEY_DOWN)) {
+		else if (Game::instance().moveDownPressed()) {
 			moveTo(this->pos + ivec2(0, 1));
 		}
 	}
@@ -383,6 +384,7 @@ void Object::addProperty(ObjectName name) {
 	else if (name == STOP) addProperty(IS_STOP);
 	else if (name == YOU) addProperty(IS_YOU);
 	else if (name == WIN) addProperty(IS_WIN);
+	else if (name == DEFEAT) addProperty(IS_DEFEAT);
 }
 
 
@@ -401,4 +403,14 @@ void Object::cleanProperties() {
 
 bool Object::hasProperty(Property property) {
 	return (properties.find(property) != properties.end());
+}
+
+
+int Object::checkState() {
+	if (map->hasObjectWithProperty(this->pos, IS_DEFEAT))
+		return -1;
+	else if (map->hasObjectWithProperty(this->pos, IS_WIN))
+		return 1;
+	else return 0;
+	
 }

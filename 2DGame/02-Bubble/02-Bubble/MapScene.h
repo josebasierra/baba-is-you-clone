@@ -29,10 +29,13 @@ public:
 
 private:
 	bool initMap(const string& levelFile);
+	void updateMapLogic();
 
 private:
 	Map *map;
 	vector<Object*> objects;
+
+	bool winState, loseState;
 
 	int currentLevel; 
 	vec2 camera;

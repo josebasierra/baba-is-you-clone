@@ -7,10 +7,7 @@
 #include <GL/glut.h>
 
 
-BaseScene::~BaseScene()
-{
-	engine->drop();
-}
+
 
 void BaseScene::init(int level) {
 	//no implementada en BaseScene
@@ -20,7 +17,7 @@ void BaseScene::init() {
 	initShaders();
 	currentTime = 0.0f;
 	currentTurnTime = 0.0f;
-	engine = createIrrKlangDevice();
+
 }
 
 void BaseScene::update(int deltaTime) {

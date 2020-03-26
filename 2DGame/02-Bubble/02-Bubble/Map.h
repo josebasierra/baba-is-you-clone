@@ -25,6 +25,7 @@ public:
 	void remove(Object* object, ivec2 position);
 	bool move(Object* object, ivec2 pos_start, ivec2 pos_end);
 
+	bool hasObjectWithProperty(ivec2 pos, Property property);
 	bool isValidPosition(ivec2 pos);
 
 	// return true if there's STOP(and not PUSH) item

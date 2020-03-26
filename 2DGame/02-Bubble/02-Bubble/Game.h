@@ -8,6 +8,9 @@
 #include "CreditsScene.h"
 #include "InstructionsScene.h"
 
+#include <irrKlang.h>
+#include <ik_ISoundEngine.h>
+using namespace irrklang;
 
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 720
@@ -48,15 +51,26 @@ public:
 	bool getSpecialKey(int key) const;
 
 	bool movementKeyPressed();
+	bool resetKeyPressed();
+	bool moveUpPressed();
+	bool moveDownPressed();
+	bool moveRightPressed();
+	bool moveLeftPressed();
 
-	void changeScene(int id);
+	void changeScene(int sceneId);
 	void runConsole();
+
+	void loopMusic(char* fileName);
+	void stopMusic(char* fileName);
+	void playSound(char* fileName);
 
 private:
 	bool bPlay;                       // Continue to play game?
 	BaseScene* scene;                      // Scene to render
 	bool keys[256], specialKeys[256]; // Store key states so that 
 	                                  // we can have access at any time
+
+	irrklang::ISoundEngine* engine; //para la musica del juego
 
 };
 

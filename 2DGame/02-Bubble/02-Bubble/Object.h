@@ -43,6 +43,9 @@ public:
 	void cleanProperties();
 	bool hasProperty(Property property);
 
+	//returns -1 in defeat position, 1 in win position, else 0 
+	int checkState();
+
 
 private:
 

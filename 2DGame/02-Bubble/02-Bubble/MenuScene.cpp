@@ -18,9 +18,7 @@ void MenuScene::init() {
 	option = 0; //mapa 1 seleccionado al inicio
 	
 	//play background music
-	if (!engine)
-		std::cout << "error";
-	engine->play2D("music/baba_is_you_ost.wav", true);
+	Game::instance().loopMusic("music/baba_is_you_ost.wav");
 }
 
 void MenuScene::loadSprites() {
@@ -45,12 +43,12 @@ void MenuScene::update(int deltaTime) {
 	currentTurnTime += deltaTime;
 
 	if (currentTurnTime >= float(TURN_TIME)) {
-		if (Game::instance().getSpecialKey(GLUT_KEY_RIGHT)) {
+		if (Game::instance().moveRightPressed()) {
 			if (option < 6) ++option;
 			currentTurnTime = 0;
 		}
 
-		else if (Game::instance().getSpecialKey(GLUT_KEY_LEFT)) {
+		else if (Game::instance().moveLeftPressed()) {
 			if (option > 0) --option;
 			currentTurnTime = 0;
 		}

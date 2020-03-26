@@ -2,9 +2,7 @@
 #include <glm/glm.hpp>
 #include "ShaderProgram.h"
 #include "Sprite.h"
-#include <irrKlang.h>
-#include <ik_ISoundEngine.h>
-using namespace irrklang;
+
 
 
 #define TURN_TIME 200
@@ -17,8 +15,6 @@ class BaseScene
 {
 
 public:
-
-	~BaseScene();
 
 	void virtual init();
 	void virtual init(int level);
@@ -38,6 +34,6 @@ protected:
 	float currentTime;
 	float currentTurnTime;
 
-	irrklang::ISoundEngine* engine; //para la musica del juego
+
 
 };

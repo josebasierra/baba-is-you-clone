@@ -20,13 +20,17 @@
 MapScene::MapScene()
 {
 	map = NULL;
+	winState = false;
+	loseState = false;
 }
+
 
 MapScene::~MapScene()
 {
 	if(map != NULL)
 		delete map;
 }
+
 
 void MapScene::init(int level)
 {
@@ -49,48 +53,49 @@ void MapScene::init(int level)
 
 
 	//play background music
-	if (!engine)
-		std::cout << "error";
-	engine->play2D("music/baba_is_you_ost.wav", true);
+	Game::instance().loopMusic("music/baba_is_you_ost.wav");
 }
 
 
 void MapScene::update(int deltaTime)
 {
 	currentTime += deltaTime;
+	currentTurnTime += deltaTime;
 
 	//update object animations
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->update(deltaTime);
 
-	//update turn
-	currentTurnTime += deltaTime;
-	if (Game::instance().movementKeyPressed() && currentTurnTime >= float(TURN_TIME) ) {
 
-		//refresh objects (hasMoved = false)
-		for (int i = 0; i < objects.size(); i++)
-			objects[i]->refresh();
+	if (winState) {
+		// win sound..
+		// slow scene transition..
 
-		//apply movement to objects
-		for (int i = 0; i < objects.size(); i++)
-			objects[i]->updateTurn();
-
-		//remove all properties (except words)
-		for (int i = 0; i < objects.size(); i++) {
-			Object* obj = objects[i];
-			if (!obj->isWord()) obj->cleanProperties();
-		}
-
-		//check rules and apply new properties
-		map->applyAllRules();
-
-		currentTurnTime = 0;
+		if (currentLevel == 5) Game::instance().changeScene(7);		//credits
+		else Game::instance().changeScene(this->currentLevel + 1);	//next level
 		
-		engine->play2D("music/Baba_move.mp3", false);
+		//changing scene causes this scene instance to be deleted, we must return
+		return;	
+	}
+	else if (loseState) {
+
+		//lose music/sound
+		//render image: press R to reset level...
+
+	}
+	else if (Game::instance().movementKeyPressed() && currentTurnTime >= float(TURN_TIME)) {
+		updateMapLogic();
 	}
 
+
+	//go to menu
 	if (Game::instance().getKey(GLUT_KEY_ESC) && currentTurnTime >= float(TURN_TIME)) {
-		Game::instance().changeScene(8); //cambio a MenuScene
+		Game::instance().changeScene(8); 
+	}
+
+	//reset level
+	if (Game::instance().resetKeyPressed() && currentTurnTime >= float(TURN_TIME)) {
+		Game::instance().changeScene(this->currentLevel); 
 	}
 }
 
@@ -109,6 +114,59 @@ void MapScene::render()
 	background->render();
 	map->render();
 }
+
+
+void MapScene::updateMapLogic() {
+	//refresh objects (hasMoved = false)
+	for (int i = 0; i < objects.size(); i++)
+		objects[i]->refresh();
+
+	//apply movement to objects
+	for (int i = 0; i < objects.size(); i++)
+		objects[i]->updateTurn();
+
+	//remove all properties (except words)
+	for (int i = 0; i < objects.size(); i++) {
+		Object* obj = objects[i];
+		if (!obj->isWord()) obj->cleanProperties();
+	}
+
+	//check rules and apply new properties
+	map->applyAllRules();
+
+	//check win/defeat intersections and update win/lose state
+	int controllableObjects = 0;
+	for (int i = 0; i < objects.size(); i++) {
+
+		if (objects[i]->hasProperty(IS_YOU)) {
+
+			int objectState = objects[i]->checkState();
+
+			if (objectState == 1) {
+				winState = true;
+			}
+			else if (objectState == -1) {
+				delete objects[i];
+				objects[i] = NULL;
+			}
+			else controllableObjects++;
+		}	
+	}
+	if (controllableObjects == 0) loseState = true;
+
+
+	//remove deleted objects from vector
+	vector<Object*>::iterator i = objects.begin();
+	while (i != objects.end()) {
+		if (*i == NULL) i = objects.erase(i);
+		else i++;
+	}
+
+	currentTurnTime = 0;
+
+	Game::instance().playSound("music/Baba_move.mp3");
+}
+
 
 
 bool MapScene::initMap(const string& levelFile) {

@@ -49,10 +49,7 @@ void Map::remove(Object* object, ivec2 position) {
 
 
 bool Map::move(Object* object, ivec2 pos1, ivec2 pos2) {
-	
 	ivec2 dir = pos2 - pos1;
-
-	cout << pos1.x << " " << pos1.y << endl;
 
 	if (isValidPosition(pos2) && !isBlocked(pos2) && pushObjects(pos2, dir)) {
 		remove(object, pos1);
@@ -77,6 +74,20 @@ bool Map::pushObjects(ivec2 pos, ivec2 dir) {
 		}
 	} 
 	return canPush;
+}
+
+
+bool Map::hasObjectWithProperty(ivec2 pos, Property property) {
+	queue<Object*>& q = grid[pos.y * mapSize.x + pos.x];
+
+	bool b = false;
+	for (int i = 0; i < q.size(); i++) {
+		Object* object = q.front();
+		q.pop();
+		if (object->hasProperty(property)) b = true;
+		q.push(object);
+	}
+	return b;
 }
 
 
