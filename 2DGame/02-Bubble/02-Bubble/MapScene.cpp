@@ -170,7 +170,7 @@ void MapScene::updateMapLogic() {
 
 
 bool MapScene::initMap(const string& levelFile) {
-	//obtengo datos del file
+	//obtengo datos del level
 
 	ifstream fin;
 	string line, tilesheetFile;
@@ -295,6 +295,7 @@ bool MapScene::initMap(const string& levelFile) {
 				object->addProperty(IS_PUSH);
 				objects.push_back(object);
 			}
+			//añadir mas a partir de 18...
 		}
 #ifndef _WIN32
 		fin.get(tile);
