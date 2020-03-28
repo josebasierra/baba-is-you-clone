@@ -115,15 +115,16 @@ bool Game::moveLeftPressed() {
 void Game::loopMusic(char* fileName) {
 	//engine->removeSoundSource(fileName);
 	if (!engine->isCurrentlyPlaying(fileName)) {
-		ISound* sound = engine->play2D(fileName, true, false, true);
-		sound->setVolume(0.7f);
+		stopMusic();
+		music = engine->play2D(fileName, true, false, true);
+		music->setVolume(0.7f);
 	}
 		
 }
 
-void Game::stopMusic(char* fileName) {
-	if (engine->isCurrentlyPlaying(fileName))
-		engine->play2D(fileName, false);
+void Game::stopMusic() {
+	if(music != NULL)
+		music->stop();	
 }
 
 

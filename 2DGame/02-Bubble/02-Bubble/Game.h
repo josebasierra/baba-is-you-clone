@@ -62,7 +62,7 @@ public:
 	void runConsole();
 
 	void loopMusic(char* fileName);
-	void stopMusic(char* fileName);
+	void stopMusic();
 	void playSound(char* fileName);
 
 private:
@@ -72,6 +72,7 @@ private:
 	                                  // we can have access at any time
 
 	irrklang::ISoundEngine* engine; //para la musica del juego
+	ISound* music;
 
 };
 

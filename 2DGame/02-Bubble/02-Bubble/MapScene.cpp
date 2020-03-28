@@ -22,6 +22,7 @@ MapScene::MapScene()
 	map = NULL;
 	winState = false;
 	loseState = false;
+	enteredLoseState = false;
 }
 
 
@@ -72,12 +73,8 @@ void MapScene::update(int deltaTime)
 
 
 	if (winState) {
-		// win sound..
-
 		Game::instance().playSound("music/Win.mp3");
 		Sleep(500); //para dar tiempo a que suene el audio
-		
-		// slow scene transition..
 
 		if (currentLevel == 5) Game::instance().changeScene(7);		//credits
 		else Game::instance().changeScene(this->currentLevel + 1);	//next level
@@ -85,15 +82,14 @@ void MapScene::update(int deltaTime)
 		//changing scene causes this scene instance to be deleted, we must return
 		return;	
 	}
-	else if (loseState) {
+	else if (loseState && !enteredLoseState) {
+		enteredLoseState = true;
 
-		//lose music/sound
-		Game::instance().playSound("music/Defeat.mp3"); //peta xd
-		
-		//render image: press R to reset level...
-		render();
+		//defeat sound and stop music
+		Game::instance().playSound("music/Defeat.mp3"); 
+		Game::instance().stopMusic();
 	}
-	else if (Game::instance().movementKeyPressed() && currentTurnTime >= float(TURN_TIME)) {
+	else if (Game::instance().movementKeyPressed() && currentTurnTime >= float(TURN_TIME) && !loseState) {
 		updateMapLogic();
 	}
 
@@ -151,6 +147,7 @@ void MapScene::updateMapLogic() {
 
 		if (objects[i]->hasProperty(IS_YOU)) {
 
+			controllableObjects++;
 			int objectState = objects[i]->checkState();
 
 			if (objectState == 1) {
@@ -159,8 +156,8 @@ void MapScene::updateMapLogic() {
 			else if (objectState == -1) {
 				delete objects[i];
 				objects[i] = NULL;
+				controllableObjects--;
 			}
-			else controllableObjects++;
 		}	
 	}
 	if (controllableObjects == 0) loseState = true;

@@ -36,6 +36,7 @@ private:
 	vector<Object*> objects;
 
 	bool winState, loseState;
+	bool enteredLoseState; 
 
 	int currentLevel; 
 	vec2 camera;
