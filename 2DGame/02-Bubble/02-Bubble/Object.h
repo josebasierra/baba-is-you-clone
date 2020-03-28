@@ -19,6 +19,7 @@ public:
 	void loadSprite();
 	void transform(ObjectType type, ObjectName name);
 
+	vec2 getGlobalPosition();
 	ObjectType getType();
 	ObjectName getName();
 

@@ -55,7 +55,7 @@ void MapScene::init(int level)
 	//init camera
 	camera = map->getOrigin() + map->getMapTotalSize() / 2;
 	projection = glm::ortho(camera.x - float(SCREEN_WIDTH)/2, camera.x + float(SCREEN_WIDTH)/2, camera.y + float(SCREEN_HEIGHT)/2, camera.y - float(SCREEN_HEIGHT)/2);
-
+	if (currentLevel == 5) updateCamera();
 
 	//play background music
 	Game::instance().loopMusic("music/baba_is_you_ost.wav");
@@ -66,6 +66,8 @@ void MapScene::update(int deltaTime)
 {
 	currentTime += deltaTime;
 	currentTurnTime += deltaTime;
+
+
 
 	//update object animations
 	for (int i = 0; i < objects.size(); i++)
@@ -91,6 +93,7 @@ void MapScene::update(int deltaTime)
 	}
 	else if (Game::instance().movementKeyPressed() && currentTurnTime >= float(TURN_TIME) && !loseState) {
 		updateMapLogic();
+		if (currentLevel == 5) updateCamera();
 	}
 
 
@@ -173,6 +176,23 @@ void MapScene::updateMapLogic() {
 	currentTurnTime = 0;
 
 	Game::instance().playSound("music/Baba_move.mp3");
+}
+
+void MapScene::updateCamera() {
+
+	float sumPositions_x = 0;
+	int controllableObjects = 0;
+	for (int i = 0; i < objects.size(); i++) {
+		if (objects[i]->hasProperty(IS_YOU)) {
+			controllableObjects++;
+			sumPositions_x += objects[i]->getGlobalPosition().x;
+		}
+	}
+
+	if (!controllableObjects) return;
+
+	camera.x = sumPositions_x / float(controllableObjects);
+	projection = glm::ortho(camera.x - float(SCREEN_WIDTH) / 2, camera.x + float(SCREEN_WIDTH) / 2, camera.y + float(SCREEN_HEIGHT) / 2, camera.y - float(SCREEN_HEIGHT) / 2);
 }
 
 bool MapScene::initMap(const string& levelFile) {

@@ -292,6 +292,14 @@ void Object::transform(ObjectType type, ObjectName name) {
 	sprite->setPosition(glm::vec2(float(map->getOrigin().x + offset_x), float((map->getOrigin().y + offset_y))));
 }
 
+vec2 Object::getGlobalPosition() {
+
+	float offset_x = float(pos.x) * map->getTileSize().x;
+	float offset_y = float(pos.y) * map->getTileSize().y;
+
+	return vec2(map->getOrigin()) + vec2(offset_x, offset_y);
+}
+
 ObjectType Object::getType() {
 	return this->type;
 }

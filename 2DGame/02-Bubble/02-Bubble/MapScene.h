@@ -29,6 +29,7 @@ public:
 
 private:
 	bool initMap(const string& levelFile);
+	void updateCamera();
 	void updateMapLogic();
 
 private:
