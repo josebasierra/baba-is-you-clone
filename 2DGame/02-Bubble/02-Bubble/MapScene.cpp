@@ -135,6 +135,11 @@ void MapScene::updateMapLogic() {
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->updateTurn();
 
+	//apply destruction by DESTROYER object
+	for (int i = 0; i < objects.size(); i++) {
+		if (objects[i]->isDestroyer()) map->cleanBox(objects[i]->getMapPosition());
+	}
+
 	//remove all properties (except words)
 	for (int i = 0; i < objects.size(); i++) {
 		Object* obj = objects[i];
@@ -143,6 +148,7 @@ void MapScene::updateMapLogic() {
 
 	//check rules and apply new properties
 	map->applyAllRules();
+
 
 	//check win/defeat intersections and update win/lose state
 	int controllableObjects = 0;
@@ -321,7 +327,13 @@ bool MapScene::initMap(const string& levelFile) {
 				object->addProperty(IS_PUSH);
 				objects.push_back(object);
 			}
-			//añadir mas a partir de 18...
+
+			else if (tile == 21) {
+				Object* object = new Object(map, texProgram, ITEM, DESTROYER);
+				object->setPos(x, y);
+				objects.push_back(object);
+			}
+			
 		}
 #ifndef _WIN32
 		fin.get(tile);

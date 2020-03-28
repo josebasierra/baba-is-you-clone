@@ -8,7 +8,8 @@ enum ObjectType
 enum ObjectName {
 	WALL, ROCK, FLAG, BABA, SKULL, 
 	IS, AND, 
-	PUSH, STOP, YOU, WIN, DEFEAT
+	PUSH, STOP, YOU, WIN, DEFEAT,
+	DESTROYER
 };
 
 enum Property {

@@ -19,6 +19,7 @@ public:
 	void loadSprite();
 	void transform(ObjectType type, ObjectName name);
 
+	ivec2 getMapPosition();
 	vec2 getGlobalPosition();
 	ObjectType getType();
 	ObjectName getName();
@@ -36,6 +37,7 @@ public:
 	bool setPos(int x, int y);
 
 	bool isWord();
+	bool isDestroyer();
 
 	void addProperty(ObjectName name);
 	void addProperty(Property property);

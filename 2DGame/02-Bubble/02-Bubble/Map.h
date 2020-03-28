@@ -25,6 +25,9 @@ public:
 	void remove(Object* object, ivec2 position);
 	bool move(Object* object, ivec2 pos_start, ivec2 pos_end);
 
+	// remove all non destroyer items at position pos
+	void cleanBox(ivec2 pos);
+
 	bool hasObjectWithProperty(ivec2 pos, Property property);
 	bool isValidPosition(ivec2 pos);
 
@@ -36,6 +39,7 @@ public:
 	bool pushObjects(ivec2 pos, ivec2 dir);
 
 	Object* getWord(int x, int y);
+
 	void applyAllRules();
 	void applyRule(Object* w1, Object* w2, Object* w3);
 	void applyRule(Object* w1, Object* w2, Object* w3, Object* w4, Object* w5);

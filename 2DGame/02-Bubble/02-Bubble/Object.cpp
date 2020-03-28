@@ -276,6 +276,17 @@ void Object::loadSprite() {
 
 		sprite->changeAnimation(0);
 	}
+	else if (this->name == DESTROYER && this->type == ITEM) {
+	spritesheet.loadFromFile("images/guerrero.png", TEXTURE_PIXEL_FORMAT_RGBA);
+	sprite = Sprite::createSprite(glm::ivec2(32, 32), glm::vec2(1.0/2.0, 1.0), &spritesheet, shaderProgram);
+	sprite->setNumberAnimations(1);
+
+	sprite->setAnimationSpeed(0, 8);
+	sprite->addKeyframe(0, glm::vec2(0.f, 0.f));
+	sprite->addKeyframe(0, glm::vec2(1.f/2.f, 0.f));
+
+	sprite->changeAnimation(0);
+	}
 }
 
 void Object::transform(ObjectType type, ObjectName name) {
@@ -290,6 +301,10 @@ void Object::transform(ObjectType type, ObjectName name) {
 	float offset_x = float(pos.x) * map->getTileSize().x;
 	float offset_y = float(pos.y) * map->getTileSize().y;
 	sprite->setPosition(glm::vec2(float(map->getOrigin().x + offset_x), float((map->getOrigin().y + offset_y))));
+}
+
+ivec2 Object::getMapPosition() {
+	return this->pos;
 }
 
 vec2 Object::getGlobalPosition() {
@@ -342,6 +357,9 @@ void Object::updateTurn() {
 			moveTo(this->pos + ivec2(0, 1));
 		}
 	}
+	else if (this->name == DESTROYER) {
+		moveTo(this->pos + ivec2(1, 0));
+	}
 }
 
 
@@ -384,6 +402,10 @@ bool Object::setPos(int x, int y) {
 
 bool Object::isWord() {
 	return type == NOUN || type == OPERATOR || type == PROPERTY;
+}
+
+bool Object::isDestroyer() {
+	return name == DESTROYER;
 }
 
 

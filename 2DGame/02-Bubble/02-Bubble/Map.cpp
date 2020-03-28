@@ -32,6 +32,16 @@ ivec2 Map::getMapTotalSize() {
 }
 
 
+void Map::cleanBox(ivec2 position) {
+	queue<Object*>& q = grid[position.y * mapSize.x + position.x];
+	int n = q.size();
+	for (int i = 0; i < n; i++) {
+		Object* object = q.front();
+		q.pop();
+		if (object->isDestroyer()) q.push(object);
+	}
+}
+
 void Map::add(Object* object, ivec2 position) {
 	grid[position.y * mapSize.x + position.x].push(object);
 }
@@ -51,7 +61,7 @@ void Map::remove(Object* object, ivec2 position) {
 bool Map::move(Object* object, ivec2 pos1, ivec2 pos2) {
 	ivec2 dir = pos2 - pos1;
 
-	if (isValidPosition(pos2) && !isBlocked(pos2) && pushObjects(pos2, dir)) {
+	if (isValidPosition(pos2) && (object->isDestroyer() || (!isBlocked(pos2) && pushObjects(pos2, dir)) )  ) {
 		remove(object, pos1);
 		add(object, pos2);
 		return true;
