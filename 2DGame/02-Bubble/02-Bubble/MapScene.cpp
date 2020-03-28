@@ -47,6 +47,10 @@ void MapScene::init(int level)
 	background = Sprite::createSprite(map->getMapTotalSize(), glm::vec2(1.f, 1.f), &spritesheet, &texProgram);
 	background->setPosition(map->getOrigin());
 
+	spritesheetinst.loadFromFile("images/press_r_esc.png", TEXTURE_PIXEL_FORMAT_RGBA);
+	instructions = Sprite::createSprite(vec2(300.0,60.0), glm::vec2(1.f, 1.f), &spritesheetinst, &texProgram);
+	instructions->setPosition(vec2(float(SCREEN_WIDTH - 670), float(SCREEN_HEIGHT - 150)));
+
 	//init camera
 	camera = map->getOrigin() + map->getMapTotalSize() / 2;
 	projection = glm::ortho(camera.x - float(SCREEN_WIDTH)/2, camera.x + float(SCREEN_WIDTH)/2, camera.y + float(SCREEN_HEIGHT)/2, camera.y - float(SCREEN_HEIGHT)/2);
@@ -112,6 +116,7 @@ void MapScene::render()
 	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
 
 	background->render();
+	instructions->render();
 	map->render();
 }
 
@@ -166,8 +171,6 @@ void MapScene::updateMapLogic() {
 
 	Game::instance().playSound("music/Baba_move.mp3");
 }
-
-
 
 bool MapScene::initMap(const string& levelFile) {
 	//obtengo datos del level

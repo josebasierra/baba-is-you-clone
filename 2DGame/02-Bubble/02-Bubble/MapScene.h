@@ -39,6 +39,9 @@ private:
 
 	int currentLevel; 
 	vec2 camera;
+
+	Sprite* instructions;
+	Texture spritesheetinst;
 };
 
 
