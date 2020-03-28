@@ -58,6 +58,7 @@ public:
 	bool moveLeftPressed();
 
 	void changeScene(int sceneId);
+	void changeSceneToMenu(int option);
 	void runConsole();
 
 	void loopMusic(char* fileName);

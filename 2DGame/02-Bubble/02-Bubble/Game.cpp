@@ -8,11 +8,8 @@ void Game::init()
 	bPlay = true;
 	glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
 	engine = createIrrKlangDevice();
-	//scene = new MapScene();
 	scene = new MenuScene();
-	scene->init();
-
-
+	scene->init(0);
 }
 
 bool Game::update(int deltaTime)
@@ -124,7 +121,6 @@ void Game::loopMusic(char* fileName) {
 		
 }
 
-
 void Game::stopMusic(char* fileName) {
 	if (engine->isCurrentlyPlaying(fileName))
 		engine->play2D(fileName, false);
@@ -136,7 +132,7 @@ void Game::playSound(char* fileName) {
 	sound->setVolume(0.3f);
 }
 
-//sceneId = (1,7)
+//sceneId = (1,7) 
 void Game::changeScene(int sceneId) {
 
 	delete scene;
@@ -153,10 +149,12 @@ void Game::changeScene(int sceneId) {
 		scene = new creditsScene();
 		scene->init(); 
 	}
-	else {
-		scene = new MenuScene();
-		scene->init();
-	}
+}
+
+void Game::changeSceneToMenu(int option) {
+	delete scene;
+	scene = new MenuScene();
+	scene->init(option);
 }
 
 void Game::runConsole() {

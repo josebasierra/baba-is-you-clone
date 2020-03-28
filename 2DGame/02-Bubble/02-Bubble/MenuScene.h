@@ -12,7 +12,7 @@ public:
 	MenuScene();
 	~MenuScene();
 
-	void init();
+	void init(int level);
 	void update(int deltaTime);
 	void render();
 	void loadSprites();

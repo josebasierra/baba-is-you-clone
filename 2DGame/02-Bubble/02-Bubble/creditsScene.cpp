@@ -21,7 +21,7 @@ void creditsScene::init() {
 
 void creditsScene::update(int deltaTime) {
 	if (Game::instance().getKey(GLUT_KEY_ESC)) {
-		Game::instance().changeScene(8);
+		Game::instance().changeSceneToMenu(6);
 	}
 }
 

@@ -47,9 +47,9 @@ void MapScene::init(int level)
 	background = Sprite::createSprite(map->getMapTotalSize(), glm::vec2(1.f, 1.f), &spritesheet, &texProgram);
 	background->setPosition(map->getOrigin());
 
-	spritesheetinst.loadFromFile("images/press_r_esc.png", TEXTURE_PIXEL_FORMAT_RGBA);
-	instructions = Sprite::createSprite(vec2(300.0,60.0), glm::vec2(1.f, 1.f), &spritesheetinst, &texProgram);
-	instructions->setPosition(vec2(float(SCREEN_WIDTH - 670), float(SCREEN_HEIGHT - 150)));
+	spritesheetinst.loadFromFile("images/press_r.png", TEXTURE_PIXEL_FORMAT_RGBA);
+	instructions = Sprite::createSprite(vec2(300.0,20.0), glm::vec2(1.f, 1.f), &spritesheetinst, &texProgram);
+	instructions->setPosition(vec2(float(SCREEN_WIDTH - 670), float(SCREEN_HEIGHT - 120)));
 
 	//init camera
 	camera = map->getOrigin() + map->getMapTotalSize() / 2;
@@ -73,6 +73,10 @@ void MapScene::update(int deltaTime)
 
 	if (winState) {
 		// win sound..
+
+		Game::instance().playSound("music/Win.mp3");
+		Sleep(500); //para dar tiempo a que suene el audio
+		
 		// slow scene transition..
 
 		if (currentLevel == 5) Game::instance().changeScene(7);		//credits
@@ -84,8 +88,10 @@ void MapScene::update(int deltaTime)
 	else if (loseState) {
 
 		//lose music/sound
+		Game::instance().playSound("music/Defeat.mp3"); //peta xd
+		
 		//render image: press R to reset level...
-
+		render();
 	}
 	else if (Game::instance().movementKeyPressed() && currentTurnTime >= float(TURN_TIME)) {
 		updateMapLogic();
@@ -94,7 +100,7 @@ void MapScene::update(int deltaTime)
 
 	//go to menu
 	if (Game::instance().getKey(GLUT_KEY_ESC) && currentTurnTime >= float(TURN_TIME)) {
-		Game::instance().changeScene(8); 
+		Game::instance().changeSceneToMenu(this->currentLevel-1);
 	}
 
 	//reset level
@@ -116,7 +122,7 @@ void MapScene::render()
 	texProgram.setUniform2f("texCoordDispl", 0.f, 0.f);
 
 	background->render();
-	instructions->render();
+	if (loseState) instructions->render();
 	map->render();
 }
 

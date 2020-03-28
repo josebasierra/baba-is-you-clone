@@ -4,7 +4,7 @@
 MenuScene::MenuScene() {}
 MenuScene:: ~MenuScene() {}
 
-void MenuScene::init() {
+void MenuScene::init(int level) {
 	BaseScene::init();
 
 	spritesheet.loadFromFile("images/menu.png", TEXTURE_PIXEL_FORMAT_RGBA);
@@ -15,7 +15,7 @@ void MenuScene::init() {
 	
 	loadSprites();
 	
-	option = 0; //mapa 1 seleccionado al inicio
+	this->option = level;
 	
 	//play background music
 	Game::instance().loopMusic("music/baba_is_you_ost.wav");
@@ -55,6 +55,7 @@ void MenuScene::update(int deltaTime) {
 
 		else if (Game::instance().getKey(GLUT_KEY_ENTER)) {
 			Game::instance().changeScene(option + 1);
+			Game::instance().playSound("music/OptionMenu.mp3");
 		}
 
 		else if (Game::instance().getKey(GLUT_KEY_ESC)) {

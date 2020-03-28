@@ -46,7 +46,7 @@ void InstructionsScene::update(int deltaTime) {
 	}
 
 	if (Game::instance().getKey(GLUT_KEY_ESC)) {
-		Game::instance().changeScene(8); //cambio a MenuScene
+		Game::instance().changeSceneToMenu(5); //cambio a MenuScene
 	}
 }
 
