@@ -38,6 +38,7 @@ public:
 	Object* getWord(int x, int y);
 	void applyAllRules();
 	void applyRule(Object* w1, Object* w2, Object* w3);
+	void applyRule(Object* w1, Object* w2, Object* w3, Object* w4, Object* w5);
 	void addProperty(ObjectName itemName, ObjectName propertyName);
 	void transformItems(ObjectName name1, ObjectName name2);
 

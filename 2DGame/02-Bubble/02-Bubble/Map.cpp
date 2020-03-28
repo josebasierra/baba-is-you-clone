@@ -117,6 +117,7 @@ bool Map::canMove(ivec2 pos, ivec2 dir) {
 
 
 Object* Map::getWord(int x, int y) {
+	if (!isValidPosition(ivec2(x, y))) return NULL;
 	queue<Object*>& q = grid[y * mapSize.x + x];
 	Object* word = NULL;
 	for (int i = 0; i < q.size(); i++) {
@@ -137,6 +138,10 @@ void Map::applyAllRules() {
 			Object* word = getWord(x,y);
 
 			if (word != NULL && word->getType() == NOUN) {
+
+				applyRule(word, getWord(x + 1, y), getWord(x + 2, y), getWord(x + 3, y), getWord(x + 4, y));
+				applyRule(word, getWord(x, y + 1), getWord(x, y + 2), getWord(x, y + 3), getWord(x, y + 4));
+
 				applyRule(word, getWord(x+1,y), getWord(x+2, y));
 				applyRule(word, getWord(x, y+1), getWord(x, y+2));
 			}
@@ -147,17 +152,34 @@ void Map::applyAllRules() {
 
 void Map::applyRule(Object* w1, Object* w2, Object* w3) {
 	if (w1 == NULL || w2 == NULL || w3 == NULL) return;
-	if (w1->getType() == NOUN && w2->getType() == OPERATOR) {
+	if (w1->getType() != NOUN || w2->getName() != IS || w3->getType() == OPERATOR) return;
+	
 
-		// NOUN OPERATOR PROPERTY
-		if (w3->getType() == PROPERTY) {
-			addProperty(w1->getName(), w3->getName());
-		}
+	// NOUN IS PROPERTY
+	if (w3->getType() == PROPERTY) {
+		addProperty(w1->getName(), w3->getName());
+	}
 
-		// NOUN OPERATOR NOUN
-		else if (w3->getType() == NOUN) {
-			transformItems(w1->getName(), w3->getName());
-		}
+	// NOUN IS NOUN
+	else if (w3->getType() == NOUN) {
+		transformItems(w1->getName(), w3->getName());
+	}
+	
+}
+
+void Map::applyRule(Object* w1, Object* w2, Object* w3, Object* w4, Object* w5) {
+	if (w1 == NULL || w2 == NULL || w3 == NULL || w4 == NULL || w5 == NULL) return;
+	if (w2->getName() == AND && (w1->getType() == PROPERTY || w3->getType() == PROPERTY)) return;
+
+	// NOUN AND NOUN IS PROPERTY/NOUN
+	if (w2->getName() == AND) {			
+		applyRule(w1, w4, w5);
+		applyRule(w3, w4, w5);
+	}
+	// NOUN IS PROPERTY/NOUN AND PROPERTY/NOUN
+	else if (w4->getName() == AND) {	
+		applyRule(w1, w2, w3);
+		applyRule(w1, w2, w5);
 	}
 }
 
