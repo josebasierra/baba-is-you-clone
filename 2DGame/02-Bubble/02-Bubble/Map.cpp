@@ -132,8 +132,8 @@ Object* Map::getWord(int x, int y) {
 
 
 void Map::applyAllRules() {
-	for (int x = 0; x < mapSize.x -2; x++) {
-		for (int y = 0; y < mapSize.y -2; y++) {
+	for (int x = 0; x < mapSize.x; x++) {
+		for (int y = 0; y < mapSize.y; y++) {
 
 			Object* word = getWord(x,y);
 
