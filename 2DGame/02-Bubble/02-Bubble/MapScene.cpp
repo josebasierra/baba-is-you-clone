@@ -23,6 +23,7 @@ MapScene::MapScene()
 	winState = false;
 	loseState = false;
 	enteredLoseState = false;
+	cameraSpeed = 2.f;
 }
 
 
@@ -42,6 +43,8 @@ void MapScene::init(int level)
 	//load and init map 
 	initMap("levels/level"+ to_string(level) +".txt");
 	this->currentLevel = level;
+	constantMovement = (currentLevel >= 5);
+	movementDirection = ivec2(1, 0);
 
 	//load background
 	spritesheet.loadFromFile("images/black.png", TEXTURE_PIXEL_FORMAT_RGBA);
@@ -49,16 +52,18 @@ void MapScene::init(int level)
 	background->setPosition(map->getOrigin());
 
 	spritesheetinst.loadFromFile("images/press_r.png", TEXTURE_PIXEL_FORMAT_RGBA);
-	instructions = Sprite::createSprite(vec2(300.0,20.0), glm::vec2(1.f, 1.f), &spritesheetinst, &texProgram);
-	instructions->setPosition(vec2(float(SCREEN_WIDTH - 670), float(SCREEN_HEIGHT - 120)));
+	instructions = Sprite::createSprite(vec2(300.0, 20.0), glm::vec2(1.f, 1.f), &spritesheetinst, &texProgram);
 
-	//init camera
+	//init camera/screen camera elements
 	camera = map->getOrigin() + map->getMapTotalSize() / 2;
 	projection = glm::ortho(camera.x - float(SCREEN_WIDTH)/2, camera.x + float(SCREEN_WIDTH)/2, camera.y + float(SCREEN_HEIGHT)/2, camera.y - float(SCREEN_HEIGHT)/2);
-	if (currentLevel == 5) updateCamera();
+	instructions->setPosition(camera + vec2(SCREEN_WIDTH / 2.f - SCREEN_WIDTH / 3.5f, SCREEN_HEIGHT / 2.f - SCREEN_HEIGHT / 8.f));
+	if (currentLevel >= 5) updateCamera();
 
 	//play background music
-	Game::instance().loopMusic("music/baba_is_you_ost.wav");
+
+	if (currentLevel < 5) 	Game::instance().loopMusic("music/baba_is_you_ost.wav");
+	else Game::instance().loopMusic("music/Never_Back_Down_looped.wav");
 }
 
 
@@ -67,7 +72,11 @@ void MapScene::update(int deltaTime)
 	currentTime += deltaTime;
 	currentTurnTime += deltaTime;
 
-
+	// movement input
+	if (Game::instance().moveUpPressed()) movementDirection = ivec2(0, -1);
+	else if (Game::instance().moveDownPressed()) movementDirection = ivec2(0, 1);
+	else if (Game::instance().moveRightPressed()) movementDirection = ivec2(1, 0);
+	else if (Game::instance().moveLeftPressed()) movementDirection = ivec2(-1, 0);
 
 	//update object animations
 	for (int i = 0; i < objects.size(); i++)
@@ -91,11 +100,14 @@ void MapScene::update(int deltaTime)
 		Game::instance().playSound("music/Defeat.mp3"); 
 		Game::instance().stopMusic();
 	}
-	else if (Game::instance().movementKeyPressed() && currentTurnTime >= float(TURN_TIME) && !loseState) {
+	else if ((Game::instance().movementKeyPressed() && currentTurnTime >= float(TURN_TIME)) || (currentTurnTime >= 2*float(TURN_TIME) && constantMovement) && !loseState) {
 		updateMapLogic();
-		if (currentLevel == 5) updateCamera();
+		Game::instance().playSound("music/Baba_move.mp3");
+		currentTurnTime = 0;
 	}
 
+	//update camera position
+	if (currentLevel == 5) updateCamera(deltaTime);
 
 	//go to menu
 	if (Game::instance().getKey(GLUT_KEY_ESC) && currentTurnTime >= float(TURN_TIME)) {
@@ -133,11 +145,14 @@ void MapScene::updateMapLogic() {
 
 	//apply movement to objects
 	for (int i = 0; i < objects.size(); i++)
-		objects[i]->updateTurn();
+		objects[i]->updateTurn(movementDirection);
 
 	//apply destruction by DESTROYER object
 	for (int i = 0; i < objects.size(); i++) {
-		if (objects[i]->isDestroyer()) map->cleanBox(objects[i]->getMapPosition());
+		if (objects[i]->isDestroyer()) {
+			map->cleanBox(objects[i]->getMapPosition());
+			map->cleanBox(objects[i]->getMapPosition() + ivec2(-1,0));
+		}
 	}
 
 	//remove all properties (except words)
@@ -178,11 +193,30 @@ void MapScene::updateMapLogic() {
 		if (*i == NULL) i = objects.erase(i);
 		else i++;
 	}
-
-	currentTurnTime = 0;
-
-	Game::instance().playSound("music/Baba_move.mp3");
 }
+
+
+
+void MapScene::updateCamera(int deltaTime) {
+
+	float sumPositions_x = 0;
+	int controllableObjects = 0;
+	for (int i = 0; i < objects.size(); i++) {
+		if (objects[i]->hasProperty(IS_YOU)) {
+			controllableObjects++;
+			sumPositions_x += objects[i]->getGlobalPosition().x;
+		}
+	}
+
+	if (!controllableObjects) return;
+
+	float objective = sumPositions_x / float(controllableObjects);
+	camera.x += (objective - this->camera.x)*cameraSpeed*(deltaTime/1000.f);
+	projection = glm::ortho(camera.x - float(SCREEN_WIDTH) / 2, camera.x + float(SCREEN_WIDTH) / 2, camera.y + float(SCREEN_HEIGHT) / 2, camera.y - float(SCREEN_HEIGHT) / 2);
+
+	instructions->setPosition(camera + vec2(SCREEN_WIDTH / 2.f - SCREEN_WIDTH / 3.5f, SCREEN_HEIGHT / 2.f - SCREEN_HEIGHT / 8.f));
+}
+
 
 void MapScene::updateCamera() {
 
@@ -199,6 +233,8 @@ void MapScene::updateCamera() {
 
 	camera.x = sumPositions_x / float(controllableObjects);
 	projection = glm::ortho(camera.x - float(SCREEN_WIDTH) / 2, camera.x + float(SCREEN_WIDTH) / 2, camera.y + float(SCREEN_HEIGHT) / 2, camera.y - float(SCREEN_HEIGHT) / 2);
+
+	instructions->setPosition(camera + vec2(SCREEN_WIDTH / 2.f - SCREEN_WIDTH / 3.5f, SCREEN_HEIGHT / 2.f - SCREEN_HEIGHT / 8.f));
 }
 
 bool MapScene::initMap(const string& levelFile) {

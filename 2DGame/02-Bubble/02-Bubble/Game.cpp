@@ -123,8 +123,11 @@ void Game::loopMusic(char* fileName) {
 }
 
 void Game::stopMusic() {
-	if(music != NULL)
-		music->stop();	
+	if (music != NULL) {
+		music->stop();
+	}
+			
+	
 }
 
 

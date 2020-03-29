@@ -30,6 +30,7 @@ public:
 private:
 	bool initMap(const string& levelFile);
 	void updateCamera();
+	void updateCamera(int deltaTime);
 	void updateMapLogic();
 
 private:
@@ -41,9 +42,13 @@ private:
 
 	int currentLevel; 
 	vec2 camera;
+	float cameraSpeed;
 
 	Sprite* instructions;
 	Texture spritesheetinst;
+
+	ivec2 movementDirection;
+	bool constantMovement;
 };
 
 

@@ -33,6 +33,7 @@ ivec2 Map::getMapTotalSize() {
 
 
 void Map::cleanBox(ivec2 position) {
+	if (!isValidPosition(position)) return;
 	queue<Object*>& q = grid[position.y * mapSize.x + position.x];
 	int n = q.size();
 	for (int i = 0; i < n; i++) {

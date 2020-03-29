@@ -340,22 +340,10 @@ void Object::refresh() {
 }
 
 
-void Object::updateTurn() {
+void Object::updateTurn(ivec2 moveDirection) {
 	if (properties.find(IS_YOU) != properties.end()) {
-
-		if (Game::instance().moveRightPressed()) {
-			moveTo(this->pos + ivec2(1, 0));
-		}
-		else if (Game::instance().moveLeftPressed()) {
-			moveTo(this->pos + ivec2(-1, 0));
-		}
-
-		else if (Game::instance().moveUpPressed()) {
-			moveTo(this->pos + ivec2(0, -1));
-		}
-		else if (Game::instance().moveDownPressed()) {
-			moveTo(this->pos + ivec2(0, 1));
-		}
+		moveTo(this->pos + moveDirection);
+		
 	}
 	else if (this->name == DESTROYER) {
 		moveTo(this->pos + ivec2(1, 0));

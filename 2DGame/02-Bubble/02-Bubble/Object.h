@@ -30,7 +30,7 @@ public:
 	//object can move again
 	void refresh();
 
-	void updateTurn();
+	void updateTurn(ivec2 moveDirection);
 
 	bool moveTo(ivec2 pos);
 	bool moveTo(int x, int y);
