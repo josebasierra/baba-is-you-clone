@@ -50,7 +50,10 @@ void MapScene::init(int level)
 
 	spritesheetinst.loadFromFile("images/press_r.png", TEXTURE_PIXEL_FORMAT_RGBA);
 	instructions = Sprite::createSprite(vec2(300.0,20.0), glm::vec2(1.f, 1.f), &spritesheetinst, &texProgram);
-	instructions->setPosition(vec2(float(SCREEN_WIDTH - 670), float(SCREEN_HEIGHT - 120)));
+	vec2 size = map->getMapTotalSize();
+	size.x -= 50;
+	size.y += 75;
+	instructions->setPosition(size);
 
 	//init camera
 	camera = map->getOrigin() + map->getMapTotalSize() / 2;
