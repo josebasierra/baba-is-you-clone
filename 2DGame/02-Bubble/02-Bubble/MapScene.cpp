@@ -24,6 +24,7 @@ MapScene::MapScene()
 	loseState = false;
 	enteredLoseState = false;
 	cameraSpeed = 2.f;
+	turn = 0.f;
 }
 
 
@@ -43,7 +44,7 @@ void MapScene::init(int level)
 	//load and init map 
 	initMap("levels/level"+ to_string(level) +".txt");
 	this->currentLevel = level;
-	constantMovement = (currentLevel >= 5);
+	constantMovement = (currentLevel >= 4);
 	movementDirection = ivec2(1, 0);
 
 	//load background
@@ -58,11 +59,11 @@ void MapScene::init(int level)
 	camera = map->getOrigin() + map->getMapTotalSize() / 2;
 	projection = glm::ortho(camera.x - float(SCREEN_WIDTH)/2, camera.x + float(SCREEN_WIDTH)/2, camera.y + float(SCREEN_HEIGHT)/2, camera.y - float(SCREEN_HEIGHT)/2);
 	instructions->setPosition(camera + vec2(SCREEN_WIDTH / 2.f - SCREEN_WIDTH / 3.5f, SCREEN_HEIGHT / 2.f - SCREEN_HEIGHT / 8.f));
-	if (currentLevel >= 5) updateCamera();
+	if (currentLevel >= 4) updateCamera();
 
 	//play background music
 
-	if (currentLevel < 5) 	Game::instance().loopMusic("music/baba_is_you_ost.wav");
+	if (currentLevel < 4) 	Game::instance().loopMusic("music/baba_is_you_ost.wav");
 	else Game::instance().loopMusic("music/Never_Back_Down_looped.wav");
 }
 
@@ -71,6 +72,7 @@ void MapScene::update(int deltaTime)
 {
 	currentTime += deltaTime;
 	currentTurnTime += deltaTime;
+	if (currentTime >= INT64_MAX || currentTurnTime < 0) currentTurnTime = TURN_TIME + 1;
 
 	// movement input
 	if (Game::instance().moveUpPressed()) movementDirection = ivec2(0, -1);
@@ -100,14 +102,15 @@ void MapScene::update(int deltaTime)
 		Game::instance().playSound("music/Defeat.mp3"); 
 		Game::instance().stopMusic();
 	}
-	else if ((Game::instance().movementKeyPressed() && currentTurnTime >= float(TURN_TIME)) || (currentTurnTime >= 2*float(TURN_TIME) && constantMovement) && !loseState) {
+	else if (((Game::instance().movementKeyPressed() && currentTurnTime >= float(TURN_TIME)) || (currentTurnTime >= 2*float(TURN_TIME) && constantMovement)) && !loseState) {
 		updateMapLogic();
 		Game::instance().playSound("music/Baba_move.mp3");
-		currentTurnTime = 0;
+
+		turn++; currentTurnTime = 0;
 	}
 
 	//update camera position
-	if (currentLevel == 5) updateCamera(deltaTime);
+	if (currentLevel >= 4) updateCamera(deltaTime);
 
 	//go to menu
 	if (Game::instance().getKey(GLUT_KEY_ESC) && currentTurnTime >= float(TURN_TIME)) {
@@ -144,8 +147,12 @@ void MapScene::updateMapLogic() {
 		objects[i]->refresh();
 
 	//apply movement to objects
-	for (int i = 0; i < objects.size(); i++)
-		objects[i]->updateTurn(movementDirection);
+	for (int i = 0; i < objects.size(); i++) {
+		Object* obj = objects[i];
+		if (obj->isDestroyer() && turn % 2 || !obj->isDestroyer())
+			obj->updateTurn(movementDirection);
+	}
+
 
 	//apply destruction by DESTROYER object
 	for (int i = 0; i < objects.size(); i++) {

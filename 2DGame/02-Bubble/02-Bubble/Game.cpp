@@ -6,7 +6,7 @@
 void Game::init()
 {
 	bPlay = true;
-	glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
+	glClearColor(0.082, 0.094, 0.121, 1.0f);
 	engine = createIrrKlangDevice();
 	scene = new MenuScene();
 	scene->init(0);
@@ -117,7 +117,8 @@ void Game::loopMusic(char* fileName) {
 	if (!engine->isCurrentlyPlaying(fileName)) {
 		stopMusic();
 		music = engine->play2D(fileName, true, false, true);
-		music->setVolume(0.7f);
+		music->setVolume(0.6f);
+		if (fileName == "music/Never_Back_Down_looped.wav") music->setVolume(0.3f);
 	}
 		
 }
@@ -126,14 +127,13 @@ void Game::stopMusic() {
 	if (music != NULL) {
 		music->stop();
 	}
-			
-	
 }
 
 
 void Game::playSound(char* fileName) {
 	ISound* sound = engine->play2D(fileName, false, false, true);
 	sound->setVolume(0.3f);
+	sound->setPlaybackSpeed();
 }
 
 //sceneId = (1,7) 

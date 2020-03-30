@@ -353,7 +353,7 @@ void Object::updateTurn(ivec2 moveDirection) {
 
 bool Object::moveTo(ivec2 pos) {
 
-	if (map->move(this, this->pos, pos)) {
+	if (!hasMoved && map->move(this, this->pos, pos)) {
 
 		this->pos = pos;
 		this->hasMoved = true;

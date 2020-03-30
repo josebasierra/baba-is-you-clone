@@ -40,6 +40,7 @@ private:
 	bool winState, loseState;
 	bool enteredLoseState; 
 
+	int turn;
 	int currentLevel; 
 	vec2 camera;
 	float cameraSpeed;

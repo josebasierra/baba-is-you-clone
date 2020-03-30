@@ -80,7 +80,7 @@ bool Map::pushObjects(ivec2 pos, ivec2 dir) {
 	for (int i = 0; i < q.size(); i++) {
 		Object* object = q.front();
 		q.pop(); q.push(object);
-		if (object->hasProperty(IS_PUSH) && !object->moveTo(pos + dir)) {
+		if ((object->hasProperty(IS_PUSH) || (object->hasProperty(IS_STOP) && object->hasProperty(IS_YOU))) && !object->moveTo(pos + dir)) {
 			canPush = false;
 		}
 	} 
