@@ -20,7 +20,6 @@
     <ClInclude Include="ObjectEnums.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Object.h" />
-    <ClInclude Include="Player.h" />
     <ClInclude Include="MapScene.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderProgram.h" />
@@ -37,7 +36,6 @@
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MenuScene.cpp" />
     <ClCompile Include="Object.cpp" />
-    <ClCompile Include="Player.cpp" />
     <ClCompile Include="MapScene.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />

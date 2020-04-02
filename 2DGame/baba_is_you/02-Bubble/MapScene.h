@@ -6,7 +6,6 @@
 #include <glm/glm.hpp>
 #include "ShaderProgram.h"
 #include "Map.h"
-#include "Player.h"
 #include <vector>
 #include "Object.h"
 
