@@ -36,6 +36,7 @@ public:
 
 	void setColor(glm::vec3 color);
 	void resize(float size);
+	void move(glm::vec2 trans);
 
 private:
 	Texture *texture;
