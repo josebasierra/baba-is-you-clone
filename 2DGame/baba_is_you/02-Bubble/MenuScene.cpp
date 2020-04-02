@@ -80,8 +80,12 @@ void MenuScene::render() {
 	background->render();
 	
 	for (int i = 0; i < 7; i++) {
-		if (option != i) options[i].sprite->render();
-		else options[i].sprite->select();
+		if (option != i) {
+			options[i].sprite->resize((sin(currentTime/250.0f)/50.f + 1.10f));
+		}
+		else {
+			options[i].sprite->resize(1.25f);
+		}
 	}
 		
 	
